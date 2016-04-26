@@ -1,0 +1,40 @@
+{
+  "name": "sp-request",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "postcoverage": "remap-istanbul -i coverage/coverage-final.json -t html -o coverage/html"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/s-KaiNet/sp-request.git"
+  },
+  "author": "Sergei Sergeev",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/s-KaiNet/sp-request/issues"
+  },
+  "homepage": "https://github.com/s-KaiNet/sp-request#readme",
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "gulp": "^3.9.1",
+    "gulp-debug": "^2.1.2",
+    "gulp-istanbul": "^0.10.4",
+    "gulp-load-plugins": "^1.2.2",
+    "gulp-mocha": "^2.2.0",
+    "gulp-plumber": "^1.1.0",
+    "gulp-sourcemaps": "^2.0.0-alpha",
+    "gulp-tslint": "^5.0.0",
+    "gulp-typescript": "^2.13.0",
+    "httpntlm": "^1.5.3",
+    "merge-stream": "^1.0.0",
+    "remap-istanbul": "^0.6.3",
+    "request": "^2.72.0",
+    "run-sequence": "^1.1.5",
+    "source-map-support": "^0.4.0",
+    "tslint": "^3.8.1",
+    "typings": "^0.8.1"
+  }
+}

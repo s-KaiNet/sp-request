@@ -1,0 +1,12 @@
+{
+  "dependencies": {
+    "bluebird": "registry:npm/bluebird#3.3.4+20160411163813",
+    "chai": "registry:npm/chai#3.5.0+20160415060238",
+    "request": "registry:npm/request#2.69.0+20160304121250"
+  },
+  "ambientDependencies": {
+    "form-data": "registry:dt/form-data#0.0.0+20160316155526",
+    "mocha": "registry:dt/mocha#2.2.5+20160317120654",
+    "node": "registry:dt/node#4.0.0+20160423143914"
+  }
+}
