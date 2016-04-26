@@ -4,8 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "postcoverage": "remap-istanbul -i coverage/coverage-final.json -t html -o coverage/html"
+    "test": "gulp test",
+    "build": "npm install && gulp tsc",
+    "dev": "gulp live-dev"
   },
   "repository": {
     "type": "git",
