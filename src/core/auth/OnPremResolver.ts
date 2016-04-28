@@ -5,7 +5,10 @@ import {IAuthResolver} from './IAuthResolver';
 import {IAuthOptions} from './IAuthOptions';
 
 export class OnPremResolver implements IAuthResolver {
-  public ApplyAuthHeaders (authOptions: IAuthOptions):  Promise<OptionsWithUrl> {
+
+  constructor(private authOptions: IAuthOptions) { }
+
+  public ApplyAuthHeaders(): Promise<OptionsWithUrl> {
     return null;
   }
 }

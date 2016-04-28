@@ -9,9 +9,9 @@ import {IOAuthCredentials} from './interfaces/IOAuthCredentials';
 import {IEnvironment} from './interfaces/IEnvironment';
 import {AuthResolverFactory} from './auth/AuthResolverFactory';
 import {IAuthOptions} from './auth/IAuthOptions';
-import {ISPrequest} from './interfaces/ISPrequest';
+import {ISPRequest} from './interfaces/ISPrequest';
 
-export function create(credentials: IUserCredentials | IOAuthCredentials, environment?: IEnvironment): ISPrequest {
+export function create(credentials: IUserCredentials | IOAuthCredentials, environment?: IEnvironment): ISPRequest {
 
   let coreRequest: any = (options: OptionsWithUrl): Promise<IncomingMessage> => {
     let requestDeferred: Promise.Resolver<IncomingMessage> = Promise.defer<IncomingMessage>();
@@ -20,12 +20,12 @@ export function create(credentials: IUserCredentials | IOAuthCredentials, enviro
     requestPromiseOptions.resolveWithFullResponse = true;
 
     AuthResolverFactory
-      .Resolve(options, credentials, environment)
-      .ApplyAuthHeaders(<IAuthOptions>{
+      .Resolve(<IAuthOptions>{
         options: options,
         credentials: credentials,
         env: environment
       })
+      .ApplyAuthHeaders()
       .then((opts) => {
 
         rp(opts.url, requestPromiseOptions)
@@ -49,7 +49,7 @@ export function create(credentials: IUserCredentials | IOAuthCredentials, enviro
       let url: string = options;
       let newOptions: OptionsWithUrl;
 
-      if (coreOptions !== null) {
+      if (coreOptions) {
         newOptions = <OptionsWithUrl>coreOptions;
         newOptions.url = url;
       } else {

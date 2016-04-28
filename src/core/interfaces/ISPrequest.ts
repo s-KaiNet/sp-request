@@ -2,7 +2,7 @@ import {OptionsWithUrl, CoreOptions} from 'request';
 import {IncomingMessage} from 'http';
 import * as Promise from 'bluebird';
 
-export interface ISPrequest {
+export interface ISPRequest {
   (opts: OptionsWithUrl): Promise<IncomingMessage>;
   (url: string): Promise<IncomingMessage>;
   (url: string, opts: CoreOptions): Promise<IncomingMessage>;
