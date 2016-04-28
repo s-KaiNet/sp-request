@@ -8,10 +8,10 @@ module.exports = function (gulp, $) {
   });
 
   gulp.task('postcoverage', ['testonly'], function () {
-    return gulp.src('./coverage/coverage-final.json')
+    return gulp.src('./coverage/html/coverage-final.json')
       .pipe(remapIstanbul({
         reports: {
-          'html': 'coverage/html'
+          'html': 'coverage/html-remap'
         }
       }));
   });
@@ -21,9 +21,9 @@ module.exports = function (gulp, $) {
       .pipe($.plumber())
       .pipe($.mocha({ reporter: 'list' }))
       .pipe($.istanbul.writeReports({
-        dir: './coverage',
-        reporters: ['json'],
-        reportOpts: { dir: './coverage' }
+        dir: './coverage/html',
+        reporters: ['json', 'html'],
+        reportOpts: { dir: './coverage/html' }
       }));
   });
 

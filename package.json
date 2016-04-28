@@ -33,6 +33,7 @@
     "merge-stream": "^1.0.0",
     "remap-istanbul": "^0.6.3",
     "request": "^2.72.0",
+    "request-promise": "^3.0.0",
     "run-sequence": "^1.1.5",
     "source-map-support": "^0.4.0",
     "tslint": "^3.8.1",

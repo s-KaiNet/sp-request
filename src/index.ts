@@ -1,2 +1,1 @@
-export {Foo} from './Foo';
-export {Bar} from './core/Bar';
+export * from './core/SPRequest';
