@@ -11,7 +11,8 @@ module.exports = function (gulp, $) {
     return gulp.src('./reports/coverage/html/coverage-final.json')
       .pipe(remapIstanbul({
         reports: {
-          'html': 'reports/coverage/html-remap'
+          'html': 'reports/coverage/html-remap',
+          'lcovonly': 'reports/coverage/lcov.info'
         }
       }));
   });
@@ -29,10 +30,10 @@ module.exports = function (gulp, $) {
   gulp.task('testonly', ['pre-test'], function () {
     return gulp.src('./lib/test/unit/tests.js', { read: false })
       .pipe($.plumber())
-      .pipe($.mocha({ reporter: 'list' }))
+      .pipe($.mocha({ reporter: 'spec' }))
       .pipe($.istanbul.writeReports({
         dir: './coverage/html',
-        reporters: ['json', 'html'],
+        reporters: ['json', 'html', 'lcovonly'],
         reportOpts: { dir: './reports/coverage/html' }
       }));
   });

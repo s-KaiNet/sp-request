@@ -11,6 +11,6 @@ var emitError = !!$.yargs.argv.emitError;
       .pipe($.tslint.report('verbose', {
         summarizeFailureOutput: true,
         emitError: emitError
-      }))
+      }));
   });
 };
