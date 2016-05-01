@@ -2,7 +2,7 @@
   "name": "sp-request",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "lib/index.js",
   "scripts": {
     "test": "gulp test",
     "build": "npm install && gulp tsc",
@@ -13,7 +13,7 @@
     "url": "git+https://github.com/s-KaiNet/sp-request.git"
   },
   "author": "Sergei Sergeev",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/s-KaiNet/sp-request/issues"
   },
