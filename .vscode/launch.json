@@ -5,12 +5,12 @@
 	"configurations": [
 		{
 			// Name of configuration; appears in the launch configuration drop down menu.
-			"name": "Run app.js",
+			"name": "Run index.js",
 			// Type of configuration. Possible values: "node", "mono".
 			"type": "node",
 			"request": "launch",
 			// Workspace relative or absolute path to the program.
-			"program": "${workspaceRoot}/lib/src/index.js",
+			"program": "${workspaceRoot}/demo/index.js",
 			// Automatically stop program after launch.
 			"stopOnEntry": false,
 			// Command line arguments passed to the program.
@@ -35,7 +35,7 @@
 			"stopOnEntry": false,
 			// Command line arguments passed to the program.
 			"args": [
-				"${workspaceRoot}\\lib\\test\\tests.js"
+				"${workspaceRoot}\\lib\\test\\unit\\tests.js"
 			],
 			// Workspace relative or absolute path to the working directory of the program being debugged. Default is the current workspace.
 			"cwd": "${workspaceRoot}",

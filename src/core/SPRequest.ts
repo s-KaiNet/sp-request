@@ -1,14 +1,13 @@
 import {OptionsWithUrl, CoreOptions} from 'request';
 import {RequestPromiseOptions} from 'request-promise';
 import {IncomingMessage} from 'http';
-import * as rp from 'request-promise';
+import * as requestp from 'request-promise';
 import * as Promise from 'bluebird';
 
 import {IUserCredentials} from './interfaces/IUserCredentials';
 import {IOAuthCredentials} from './interfaces/IOAuthCredentials';
 import {IEnvironment} from './interfaces/IEnvironment';
 import {AuthResolverFactory} from './auth/AuthResolverFactory';
-import {IAuthOptions} from './auth/IAuthOptions';
 import {ISPRequest} from './interfaces/ISPrequest';
 
 export function create(credentials: IUserCredentials | IOAuthCredentials, environment?: IEnvironment): ISPRequest {
@@ -18,24 +17,25 @@ export function create(credentials: IUserCredentials | IOAuthCredentials, enviro
 
     let requestPromiseOptions: RequestPromiseOptions = <RequestPromiseOptions>options;
     requestPromiseOptions.resolveWithFullResponse = true;
+    requestPromiseOptions.simple = false;
+
+    options.headers = options.headers || {};
+    if (!options.headers['Accept']) {
+      options.headers['Accept'] = 'application/json;odata=verbose';
+    }
 
     AuthResolverFactory
-      .Resolve(<IAuthOptions>{
+      .Resolve({
         options: options,
         credentials: credentials,
         env: environment
       })
       .ApplyAuthHeaders()
-      .then((opts) => {
-
-        rp(opts.url, requestPromiseOptions)
-          .then((response: IncomingMessage) => {
-            requestDeferred.resolve(response);
-          }, (err) => {
-            requestDeferred.reject(err);
-          });
-
-      }, (err) => {
+      .then(requestp)
+      .then((response: IncomingMessage) => {
+        requestDeferred.resolve(response);
+      })
+      .catch((err) => {
         requestDeferred.reject(err);
       });
 
@@ -57,16 +57,41 @@ export function create(credentials: IUserCredentials | IOAuthCredentials, enviro
           url: url
         };
       }
-      coreRequest(newOptions);
+
+      if (!newOptions.method) {
+        newOptions.method = 'GET';
+      }
+
+      return coreRequest(newOptions);
     } else {
+      if (!options.method) {
+        options.method = 'GET';
+      }
       return coreRequest(options);
     }
   };
 
   ['get', 'post'].forEach((method: string) => {
-    spRequestFunc[method] = (opts: rp.RequestPromiseOptions): rp.RequestPromise => {
-      opts.method = method;
-      return spRequestFunc(opts);
+    spRequestFunc[method] = (options: OptionsWithUrl | string, coreOptions?: CoreOptions): Promise<IncomingMessage> => {
+
+      if (typeof options === 'string') {
+
+        if (coreOptions) {
+          coreOptions.method = method.toUpperCase();
+        } else {
+          coreOptions = <CoreOptions>{
+            method: method.toUpperCase()
+          };
+        }
+
+        return spRequestFunc(options, coreOptions);
+      }
+
+      if (typeof options !== 'string') {
+        options.method = method.toUpperCase();
+      }
+
+      return spRequestFunc(options);
     };
   });
 

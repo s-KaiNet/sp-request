@@ -17,7 +17,7 @@ module.exports = function (gulp, $) {
   });
 
   gulp.task('testonly', ['pre-test'], function () {
-    return gulp.src('./lib/tests/tests.js', { read: false })
+    return gulp.src('./lib/test/unit/tests.js', { read: false })
       .pipe($.plumber())
       .pipe($.mocha({ reporter: 'list' }))
       .pipe($.istanbul.writeReports({

@@ -3,15 +3,19 @@
     "bluebird": "registry:npm/bluebird#3.3.4+20160411163813",
     "chai": "registry:npm/chai#3.5.0+20160415060238",
     "index": "file:typings-custom/request-promise/index.d.ts",
+    "lodash": "registry:npm/lodash#4.0.0+20160416211519",
     "request": "registry:npm/request#2.69.0+20160304121250",
-    "request-promise": "file:typings-custom/request-promise/request-promise.d.ts"
+    "request-promise": "file:typings-custom/request-promise/request-promise.d.ts",
+    "sinon": "registry:npm/sinon#1.16.0+20160427193336"
   },
   "ambientDependencies": {
     "bluebird": "registry:dt/bluebird#2.0.0+20160319051630",
     "form-data": "registry:dt/form-data#0.0.0+20160316155526",
     "mocha": "registry:dt/mocha#2.2.5+20160317120654",
+    "mockery": "registry:dt/mockery#1.4.0+20160316155526",
     "node": "registry:dt/node#4.0.0+20160423143914",
     "request": "registry:dt/request#0.0.0+20160316155526",
+    "request-ex": "file:typings-custom/request-ex/request-ex.d.ts",
     "request-promise": "file:typings-custom/request-promise/request-promise.d.ts"
   }
 }
