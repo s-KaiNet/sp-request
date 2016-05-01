@@ -64,7 +64,7 @@ describe('sp-request: direct call tests - sprequest(...)', () => {
 
     request(spUrl)
       .then((data) => {
-        expect(requestPromiseStub.called).is.false;
+        expect(requestPromiseStub.called).is.true;
 
         done();
       })
