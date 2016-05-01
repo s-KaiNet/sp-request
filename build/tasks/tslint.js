@@ -1,6 +1,8 @@
 module.exports = function (gulp, $) {
   'use strict';
 
+var emitError = !!$.yargs.argv.emitError;
+
   gulp.task('tslint', function () {
     return gulp.src('./src/**/*.ts')
       .pipe($.tslint({
@@ -8,7 +10,7 @@ module.exports = function (gulp, $) {
       }))
       .pipe($.tslint.report('verbose', {
         summarizeFailureOutput: true,
-        emitError: false
+        emitError: emitError
       }))
   });
 };

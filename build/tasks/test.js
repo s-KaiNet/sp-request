@@ -8,13 +8,23 @@ module.exports = function (gulp, $) {
   });
 
   gulp.task('postcoverage', ['testonly'], function () {
-    return gulp.src('./coverage/html/coverage-final.json')
+    return gulp.src('./reports/coverage/html/coverage-final.json')
       .pipe(remapIstanbul({
         reports: {
-          'html': 'coverage/html-remap'
+          'html': 'reports/coverage/html-remap'
         }
       }));
   });
+
+  gulp.task('test-ci', ['test'], function () {
+    return gulp.src('./lib/test/unit/tests.js', { read: false })
+      .pipe($.mocha({
+        reporter: 'mocha-junit-reporter',
+        reporterOptions: {
+          mochaFile: './reports/test/testrun.xml'
+        }
+      }))
+  })
 
   gulp.task('testonly', ['pre-test'], function () {
     return gulp.src('./lib/test/unit/tests.js', { read: false })
@@ -23,7 +33,7 @@ module.exports = function (gulp, $) {
       .pipe($.istanbul.writeReports({
         dir: './coverage/html',
         reporters: ['json', 'html'],
-        reportOpts: { dir: './coverage/html' }
+        reportOpts: { dir: './reports/coverage/html' }
       }));
   });
 

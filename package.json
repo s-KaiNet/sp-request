@@ -4,7 +4,7 @@
   "description": "",
   "main": "lib/index.js",
   "scripts": {
-    "test": "gulp test",
+    "test": "gulp test-ci",
     "build": "npm install && gulp tsc",
     "dev": "gulp live-dev"
   },
@@ -22,6 +22,7 @@
     "chai": "^3.5.0",
     "gulp": "^3.9.1",
     "gulp-debug": "^2.1.2",
+    "gulp-if": "^2.0.0",
     "gulp-istanbul": "^0.10.4",
     "gulp-load-plugins": "^1.2.2",
     "gulp-mocha": "^2.2.0",
@@ -32,6 +33,7 @@
     "httpntlm": "^1.5.3",
     "lodash": "^4.11.1",
     "merge-stream": "^1.0.0",
+    "mocha-junit-reporter": "^1.11.1",
     "mockery": "^1.6.2",
     "remap-istanbul": "^0.6.3",
     "request": "^2.72.0",
@@ -40,6 +42,7 @@
     "sinon": "^1.17.3",
     "source-map-support": "^0.4.0",
     "tslint": "^3.8.1",
-    "typings": "^0.8.1"
+    "typings": "^0.8.1",
+    "yargs": "^4.6.0"
   }
 }

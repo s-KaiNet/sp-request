@@ -64,12 +64,12 @@ describe('sp-request: direct call tests - sprequest(...)', () => {
 
     request(spUrl)
       .then((data) => {
-
-        expect(requestPromiseStub.called).is.true;
+        expect(requestPromiseStub.called).is.false;
 
         done();
-      }, (err) => {
-        throw err;
+      })
+      .catch((err) => {
+        done(err);
       });
   });
 
@@ -89,8 +89,9 @@ describe('sp-request: direct call tests - sprequest(...)', () => {
         expect(options.url).to.equal(spUrl);
 
         done();
-      }, (err) => {
-        throw err;
+      })
+      .catch((err) => {
+        done(err);
       });
   });
 
@@ -106,8 +107,9 @@ describe('sp-request: direct call tests - sprequest(...)', () => {
         expect(requestPromiseStub.called).is.true;
 
         done();
-      }, (err) => {
-        throw err;
+      })
+      .catch((err) => {
+        done(err);
       });
   });
 
@@ -125,8 +127,9 @@ describe('sp-request: direct call tests - sprequest(...)', () => {
         expect(options.headers['Accept']).to.equal(defaultAcceptHeader);
 
         done();
-      }, (err) => {
-        throw err;
+      })
+      .catch((err) => {
+        done(err);
       });
   });
 
@@ -143,8 +146,9 @@ describe('sp-request: direct call tests - sprequest(...)', () => {
         expect(options.url).to.equal(spUrl);
 
         done();
-      }, (err) => {
-        throw err;
+      })
+      .catch((err) => {
+        done(err);
       });
   });
 
@@ -163,8 +167,9 @@ describe('sp-request: direct call tests - sprequest(...)', () => {
         expect(options.url).to.equal(spUrl);
 
         done();
-      }, (err) => {
-        throw err;
+      })
+      .catch((err) => {
+        done(err);
       });
   });
 
@@ -181,12 +186,11 @@ describe('sp-request: direct call tests - sprequest(...)', () => {
         expect(options.url).to.equal(spUrl);
 
         done();
-      }, (err) => {
-        throw err;
+      })
+      .catch((err) => {
+        done(err);
       });
   });
-
-
 });
 
 describe('sp-request: helper call tests - sprequest.get(...)', () => {
@@ -237,8 +241,9 @@ describe('sp-request: helper call tests - sprequest.get(...)', () => {
         expect(options.url).to.equal(spUrl);
 
         done();
-      }, (err) => {
-        throw err;
+      })
+      .catch((err) => {
+        done(err);
       });
   });
 
@@ -257,8 +262,9 @@ describe('sp-request: helper call tests - sprequest.get(...)', () => {
         expect(options.url).to.equal(spUrl);
 
         done();
-      }, (err) => {
-        throw err;
+      })
+      .catch((err) => {
+        done(err);
       });
   });
 
@@ -275,8 +281,9 @@ describe('sp-request: helper call tests - sprequest.get(...)', () => {
         expect(options.url).to.equal(spUrl);
 
         done();
-      }, (err) => {
-        throw err;
+      })
+      .catch((err) => {
+        done(err);
       });
   });
 
@@ -330,8 +337,9 @@ describe('sp-request: helper call tests - sprequest.post(...)', () => {
         expect(options.url).to.equal(spUrl);
 
         done();
-      }, (err) => {
-        throw err;
+      })
+      .catch((err) => {
+        done(err);
       });
   });
 
@@ -350,8 +358,9 @@ describe('sp-request: helper call tests - sprequest.post(...)', () => {
         expect(options.url).to.equal(spUrl);
 
         done();
-      }, (err) => {
-        throw err;
+      })
+      .catch((err) => {
+        done(err);
       });
   });
 
@@ -368,8 +377,9 @@ describe('sp-request: helper call tests - sprequest.post(...)', () => {
         expect(options.url).to.equal(spUrl);
 
         done();
-      }, (err) => {
-        throw err;
+      })
+      .catch((err) => {
+        done(err);
       });
   });
 
@@ -420,12 +430,13 @@ describe('sp-request: throws an error', () => {
 
     request.get(spUrl, {})
       .then((data) => {
-        done();
+        //
       }, (err) => {
         expect(err.code).to.equal(error.code);
         done();
+      })
+      .catch((err) => {
+        done(err);
       });
   });
-
-
 });

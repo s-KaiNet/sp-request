@@ -1,3 +1,10 @@
 machine:
   node:
     version: 5.7.0
+
+test:
+  pre:
+    - gulp tslint --emitError
+  post:
+    - mkdir $CIRCLE_TEST_REPORTS/junit
+    - mv ./reports/test/*.xml $CIRCLE_TEST_REPORTS/junit/testrun.xml
