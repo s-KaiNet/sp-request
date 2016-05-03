@@ -2,7 +2,6 @@ import * as url from 'url';
 
 import {IAuthResolver} from './IAuthResolver';
 import {OnPremResolver} from './OnPremResolver';
-import {OAuthResolver} from './OAuthResolver';
 import {OnlineResolver} from './OnlineResolver';
 import {IAuthOptions} from './IAuthOptions';
 
@@ -12,10 +11,6 @@ export class AuthResolverFactory {
 
     if (isOnPrem) {
       return new OnPremResolver(authOptions);
-    }
-
-    if ((<any>authOptions.credentials).clientId) {
-      return new OAuthResolver(authOptions);
     }
 
     return new OnlineResolver(authOptions);
