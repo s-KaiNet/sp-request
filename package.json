@@ -22,7 +22,6 @@
     "chai": "^3.5.0",
     "coveralls": "^2.11.9",
     "gulp": "^3.9.1",
-    "gulp-coveralls": "^0.1.4",
     "gulp-debug": "^2.1.2",
     "gulp-istanbul": "^0.10.4",
     "gulp-load-plugins": "^1.2.2",
