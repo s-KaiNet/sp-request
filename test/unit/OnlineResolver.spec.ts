@@ -48,7 +48,7 @@ describe('sp-request: OnlineResolver', () => {
       rtFa: 'rtfa'
     });
 
-    resolver.ApplyAuthHeaders(onlineOptions)
+    resolver.applyAuthHeaders(onlineOptions)
       .then((options) => {
         expect(options.headers['Cookie']).to.equal(cookieString);
         done();
@@ -64,7 +64,7 @@ describe('sp-request: OnlineResolver', () => {
       rtFa: 'rtfa'
     });
 
-    resolver.ApplyAuthHeaders(onlineOptions)
+    resolver.applyAuthHeaders(onlineOptions)
       .then((options) => {
         expect(options['secureOptions']).to.equal(consts.SSL_OP_NO_TLSv1_2);
         done();
@@ -78,7 +78,7 @@ describe('sp-request: OnlineResolver', () => {
     let error: string = 'error';
     siginStup.throws(error);
 
-    resolver.ApplyAuthHeaders(onlineOptions)
+    resolver.applyAuthHeaders(onlineOptions)
       .then((options) => {
         //
       })

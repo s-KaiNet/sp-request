@@ -33,8 +33,8 @@ export function create(credentials: IUserCredentials, environment?: IEnvironment
     };
 
     resolversFactory
-      .Resolve(authOptions.options.url)
-      .ApplyAuthHeaders(authOptions)
+      .resolve(authOptions.options.url)
+      .applyAuthHeaders(authOptions)
       .then(requestp)
       .then((response: IncomingMessage) => {
         requestDeferred.resolve(response);

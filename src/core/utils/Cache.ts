@@ -6,8 +6,8 @@ export class Cache {
   private _cache: { [key: string]: CacheItem } = {};
 
   public set(key: string, data: any, expiration?: number | Date): void {
-    let cacheItem: CacheItem = null;
-    key = crypto.createHash('md5').update(key).digest('hex');
+    let cacheItem: CacheItem = undefined;
+    key = this.getHashKey(key);
 
     if (!expiration) {
       cacheItem = new CacheItem(data);
@@ -23,11 +23,11 @@ export class Cache {
   }
 
   public get<T>(key: string): T {
-    key = crypto.createHash('md5').update(key).digest('hex');
+    key = this.getHashKey(key);
     let cacheItem: CacheItem = this._cache[key];
 
     if (!cacheItem) {
-      return null;
+      return undefined;
     }
 
     if (!cacheItem.expiredOn) {
@@ -37,10 +37,19 @@ export class Cache {
     let now: Date = new Date();
 
     if (now > cacheItem.expiredOn) {
-      this._cache[key] = null;
-      return null;
+      this._cache[key] = undefined;
+      return undefined;
     } else {
       return cacheItem.data;
     }
+  }
+
+  public remove(key: string): void {
+    key = this.getHashKey(key);
+    delete this._cache[key];
+  }
+
+  private getHashKey(key: string): string {
+    return crypto.createHash('md5').update(key).digest('hex');
   }
 }

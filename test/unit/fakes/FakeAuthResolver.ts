@@ -5,7 +5,7 @@ import {IAuthResolver} from './../../../src/core/auth/IAuthResolver';
 import {IAuthOptions} from './../../../src/core/auth/IAuthOptions';
 
 export class FakeAuthResolver implements IAuthResolver {
-  public ApplyAuthHeaders(authOptions: IAuthOptions): Promise<OptionsWithUrl> {
+  public applyAuthHeaders(authOptions: IAuthOptions): Promise<OptionsWithUrl> {
     let deferred: Promise.Resolver<OptionsWithUrl> = Promise.defer<OptionsWithUrl>();
     deferred.resolve(authOptions.options);
 

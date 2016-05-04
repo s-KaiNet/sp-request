@@ -10,7 +10,7 @@ export class AuthResolverFactory {
   private _onpremKey: string = 'AuthResolverFactory_onprem';
   private _onlineKey: string = 'AuthResolverFactory_online';
 
-  public Resolve(siteUrl: string): IAuthResolver {
+  public resolve(siteUrl: string): IAuthResolver {
     let isOnPrem: boolean = (url.parse(siteUrl)).host.indexOf('.sharepoint.com') === -1;
 
     if (isOnPrem) {

@@ -68,7 +68,7 @@ describe('sp-request: OnPremResolver', () => {
       }
     });
 
-    resolver.ApplyAuthHeaders(onpremOptions)
+    resolver.applyAuthHeaders(onpremOptions)
       .then((data) => {
         let call: SinonSpyCall = requestPromiseStub.getCall(0);
         let options: OptionsWithUrl = call.args[0];
@@ -90,7 +90,7 @@ describe('sp-request: OnPremResolver', () => {
       }
     });
 
-    resolver.ApplyAuthHeaders(onpremOptions)
+    resolver.applyAuthHeaders(onpremOptions)
       .then((options: OptionsWithUrl) => {
         expect(options.headers['Authorization']).to.equal(type3Message);
         done();
@@ -104,7 +104,7 @@ describe('sp-request: OnPremResolver', () => {
     let error: string = 'err';
     requestDeferred.reject(error);
 
-    resolver.ApplyAuthHeaders(onpremOptions)
+    resolver.applyAuthHeaders(onpremOptions)
       .then((options: OptionsWithUrl) => {
         //
       }, (err) => {

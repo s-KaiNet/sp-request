@@ -13,7 +13,7 @@ import {IAuthOptions} from './IAuthOptions';
 import {IEnvironment} from './IEnvironment';
 
 export class OnPremResolver implements IAuthResolver {
-  public ApplyAuthHeaders(authOptions: IAuthOptions): Promise<OptionsWithUrl> {
+  public applyAuthHeaders(authOptions: IAuthOptions): Promise<OptionsWithUrl> {
     let deferred: Promise.Resolver<OptionsWithUrl> = Promise.defer<OptionsWithUrl>();
 
     let environmentOptions: IEnvironment = _.defaults(authOptions.env, <IEnvironment>{ domain: '', workstation: '' });

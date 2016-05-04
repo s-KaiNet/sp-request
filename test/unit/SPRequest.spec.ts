@@ -48,7 +48,7 @@ describe('sp-request: direct call tests - sprequest(...)', () => {
     authFactory = require('./../../src/core/auth/AuthResolverFactory');
     sprequest = require('./../../src/core/SPRequest');
 
-    authResolveStub = sinon.stub(authFactory.AuthResolverFactory.prototype, 'Resolve', (authOptions: IAuthOptions) => {
+    authResolveStub = sinon.stub(authFactory.AuthResolverFactory.prototype, 'resolve', (authOptions: IAuthOptions) => {
       return new FakeAuthResolver();
     });
   });
@@ -218,7 +218,7 @@ describe('sp-request: helper call tests - sprequest.get(...)', () => {
     authFactory = require('./../../src/core/auth/AuthResolverFactory');
     sprequest = require('./../../src/core/SPRequest');
 
-    authResolveStub = sinon.stub(authFactory.AuthResolverFactory.prototype, 'Resolve', (authOptions: IAuthOptions) => {
+    authResolveStub = sinon.stub(authFactory.AuthResolverFactory.prototype, 'resolve', (authOptions: IAuthOptions) => {
       return new FakeAuthResolver();
     });
   });
@@ -314,7 +314,7 @@ describe('sp-request: helper call tests - sprequest.post(...)', () => {
     authFactory = require('./../../src/core/auth/AuthResolverFactory');
     sprequest = require('./../../src/core/SPRequest');
 
-    authResolveStub = sinon.stub(authFactory.AuthResolverFactory.prototype, 'Resolve', (authOptions: IAuthOptions) => {
+    authResolveStub = sinon.stub(authFactory.AuthResolverFactory.prototype, 'resolve', (authOptions: IAuthOptions) => {
       return new FakeAuthResolver();
     });
   });
@@ -414,7 +414,7 @@ describe('sp-request: throws an error', () => {
     authFactory = require('./../../src/core/auth/AuthResolverFactory');
     sprequest = require('./../../src/core/SPRequest');
 
-    authResolveStub = sinon.stub(authFactory.AuthResolverFactory.prototype, 'Resolve', (authOptions: IAuthOptions) => {
+    authResolveStub = sinon.stub(authFactory.AuthResolverFactory.prototype, 'resolve', (authOptions: IAuthOptions) => {
       return new FakeAuthResolver();
     });
   });

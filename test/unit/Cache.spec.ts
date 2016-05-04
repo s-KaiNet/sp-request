@@ -19,7 +19,7 @@ describe('sp-request: Cache', () => {
   it('should return null for non-existing item', () => {
     let data: any = cache.get('some key');
 
-    expect(data).to.be.null;
+    expect(data).to.be.undefined;
   });
 
   it('should return item from cache with expiration in sec', () => {
@@ -40,7 +40,7 @@ describe('sp-request: Cache', () => {
     cache.set(key, value, -1);
 
     let data: any = cache.get(key);
-    expect(data).to.be.null;
+    expect(data).to.be.undefined;
   });
 
   it('should return item from cache with expiration on date', () => {
@@ -63,6 +63,19 @@ describe('sp-request: Cache', () => {
     cache.set(key, value, now);
 
     let data: any = cache.get(key);
-    expect(data).to.be.null;
+    expect(data).to.be.undefined;
+  });
+
+  it('should remove value from cache', () => {
+    let key: string = 'cache key';
+    let value: any = { data: 'some data' };
+    cache.set(key, value);
+    let data: any = cache.get(key);
+    expect(data).to.equal(value);
+
+    cache.remove(key);
+    data = cache.get(key);
+
+    expect(data).is.undefined;
   });
 });
