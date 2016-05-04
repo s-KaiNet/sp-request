@@ -5,19 +5,17 @@ import * as requestp from 'request-promise';
 import * as Promise from 'bluebird';
 
 import {IUserCredentials} from './interfaces/IUserCredentials';
-import {IOAuthCredentials} from './interfaces/IOAuthCredentials';
 import {IEnvironment} from './interfaces/IEnvironment';
 import {AuthResolverFactory} from './auth/AuthResolverFactory';
 import {ISPRequest} from './interfaces/ISPrequest';
 
-export function create(credentials: IUserCredentials | IOAuthCredentials, environment?: IEnvironment): ISPRequest {
+export function create(credentials: IUserCredentials, environment?: IEnvironment): ISPRequest {
 
   let coreRequest: any = (options: OptionsWithUrl): Promise<IncomingMessage> => {
     let requestDeferred: Promise.Resolver<IncomingMessage> = Promise.defer<IncomingMessage>();
 
-    let requestPromiseOptions: RequestPromiseOptions = <RequestPromiseOptions>options;
-    requestPromiseOptions.resolveWithFullResponse = true;
-    requestPromiseOptions.simple = false;
+    (<RequestPromiseOptions>options).resolveWithFullResponse = true;
+    (<RequestPromiseOptions>options).simple = true;
 
     options.headers = options.headers || {};
     if (!options.headers['Accept']) {

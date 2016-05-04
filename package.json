@@ -35,6 +35,7 @@
     "merge-stream": "^1.0.0",
     "mocha-junit-reporter": "^1.11.1",
     "mockery": "^1.6.2",
+    "node-spoauth": "^1.0.0",
     "remap-istanbul": "^0.6.3",
     "request": "^2.72.0",
     "request-promise": "^3.0.0",
