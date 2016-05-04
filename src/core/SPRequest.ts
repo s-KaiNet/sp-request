@@ -4,12 +4,15 @@ import {IncomingMessage} from 'http';
 import * as requestp from 'request-promise';
 import * as Promise from 'bluebird';
 
-import {IUserCredentials} from './interfaces/IUserCredentials';
-import {IEnvironment} from './interfaces/IEnvironment';
+import {IUserCredentials} from './auth/IUserCredentials';
+import {IEnvironment} from './auth/IEnvironment';
 import {AuthResolverFactory} from './auth/AuthResolverFactory';
-import {ISPRequest} from './interfaces/ISPrequest';
+import {ISPRequest} from './ISPrequest';
+import {Cache} from './utils/Cache';
 
 export function create(credentials: IUserCredentials, environment?: IEnvironment): ISPRequest {
+
+  let requestDigestCache: Cache = new Cache();
 
   let coreRequest: any = (options: OptionsWithUrl): Promise<IncomingMessage> => {
     let requestDeferred: Promise.Resolver<IncomingMessage> = Promise.defer<IncomingMessage>();
@@ -67,6 +70,37 @@ export function create(credentials: IUserCredentials, environment?: IEnvironment
       }
       return coreRequest(options);
     }
+  };
+
+  spRequestFunc.requestDigest = (siteUrl: string) => {
+    let url: string = siteUrl.replace(/\/$/, '');
+    let requestDeferred: Promise.Resolver<string> = Promise.defer<string>();
+    let cachedDigest: string = requestDigestCache.get<string>(url);
+
+    requestDigestCache.set('mykey', 'myval');
+
+    if (cachedDigest) {
+      requestDeferred.resolve(cachedDigest);
+      return requestDeferred.promise;
+    }
+
+    spRequestFunc.post(`${url}/_api/contextinfo`, {
+      headers: {
+        'content-length': '0'
+      }
+    })
+      .then((response: IncomingMessage) => {
+        let data: any = JSON.parse(response.body);
+        let digest: string = data.d.GetContextWebInformation.FormDigestValue;
+        let timeout: number = parseInt(data.d.GetContextWebInformation.FormDigestTimeoutSeconds, 10);
+        requestDigestCache.set(url, digest, timeout - 30);
+        requestDeferred.resolve(digest);
+      })
+      .catch((err) => {
+        requestDeferred.reject(err);
+      });
+
+    return requestDeferred.promise;
   };
 
   ['get', 'post'].forEach((method: string) => {

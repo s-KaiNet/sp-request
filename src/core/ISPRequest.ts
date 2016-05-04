@@ -14,4 +14,6 @@ export interface ISPRequest {
   post(opts: OptionsWithUrl): Promise<IncomingMessage>;
   post(url: string): Promise<IncomingMessage>;
   post(url: string, opts: CoreOptions): Promise<IncomingMessage>;
+
+  requestDigest(url: string): Promise<string>;
 }

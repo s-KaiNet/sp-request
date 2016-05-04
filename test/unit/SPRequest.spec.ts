@@ -4,11 +4,11 @@ import {SinonStub, SinonSpyCall} from 'sinon';
 import * as mockery from 'mockery';
 import {OptionsWithUrl} from 'request';
 
-import {ISPRequest} from './../../src/core/interfaces/ISPRequest';
+import {ISPRequest} from './../../src/core/ISPRequest';
 import {IAuthOptions} from './../../src/core/auth/IAuthOptions';
 import {FakeAuthResolver} from './fakes/FakeAuthResolver';
-import {IUserCredentials} from './../../src/core/interfaces/IUserCredentials';
-import {IEnvironment} from './../../src/core/interfaces/IEnvironment';
+import {IUserCredentials} from './../../src/core/auth/IUserCredentials';
+import {IEnvironment} from './../../src/core/auth/IEnvironment';
 
 let spUrl: string = 'https://your_sp_api_endpoint';
 
@@ -433,6 +433,105 @@ describe('sp-request: throws an error', () => {
         //
       }, (err) => {
         expect(err.code).to.equal(error.code);
+        done();
+      })
+      .catch((err) => {
+        done(err);
+      });
+  });
+});
+
+describe('sp-request: get request digest', () => {
+
+  let sprequest: any;
+
+  beforeEach(() => {
+    sprequest = require('./../../src/core/SPRequest');
+  });
+
+
+  it('should retrun request digest', (done) => {
+    let requestDeferred: Promise.Resolver<any> = Promise.defer();
+
+    let request: ISPRequest = sprequest.create(creds, env);
+    let digest: string = 'digest value';
+    let digestUrl: string = `${spUrl}/_api/contextinfo`;
+    let responseString: string = `
+    {
+      "d": {
+        "GetContextWebInformation": {
+          "FormDigestValue": "${digest}",
+          "FormDigestTimeoutSeconds": "0"
+        }
+      }
+    }`;
+
+    requestDeferred.resolve({
+      body: responseString
+    });
+
+    let postStup: SinonStub = sinon.stub(request, 'post').returns(requestDeferred.promise);
+    request.requestDigest(spUrl)
+      .then((digestValue) => {
+        let call: SinonSpyCall = postStup.getCall(0);
+        let url: string = call.args[0];
+
+        expect(url).to.equal(digestUrl);
+        expect(postStup.called).is.true;
+        expect(digestValue).to.equal(digest);
+        done();
+      })
+      .catch((err) => {
+        done(err);
+      });
+  });
+
+  it('should throw an error', (done) => {
+    let request: ISPRequest = sprequest.create(creds, env);
+    let requestDeferred: Promise.Resolver<any> = Promise.defer();
+    let error: string = 'unexpected error';
+    requestDeferred.reject(error);
+
+    sinon.stub(request, 'post').returns(requestDeferred.promise);
+    request.requestDigest(spUrl)
+      .then((digestValue) => {
+        //
+      })
+      .catch((err) => {
+        expect(err).to.equal(error);
+        done();
+      });
+  });
+
+  it('should retrun request digest from cache on subsequence calls', (done) => {
+    let requestDeferred: Promise.Resolver<any> = Promise.defer();
+
+    let request: ISPRequest = sprequest.create(creds, env);
+    let digest: string = 'digest value';
+    let responseString: string = `
+    {
+      "d": {
+        "GetContextWebInformation": {
+          "FormDigestValue": "${digest}",
+          "FormDigestTimeoutSeconds": "100"
+        }
+      }
+    }`;
+
+    requestDeferred.resolve({
+      body: responseString
+    });
+
+    let postStup: SinonStub = sinon.stub(request, 'post').returns(requestDeferred.promise);
+
+    request.requestDigest(spUrl)
+      .then((digest1) => {
+        postStup.restore();
+        sinon.stub(request, 'post').throws();
+        return request.requestDigest(spUrl);
+      })
+      .then((digestValue) => {
+        expect(digestValue).to.equal(digest);
         done();
       })
       .catch((err) => {

@@ -4,7 +4,7 @@ import {SinonStub} from 'sinon';
 import * as consts from 'constants';
 
 import {IAuthOptions} from './../../src/core/auth/IAuthOptions';
-import {IUserCredentials} from './../../src/core/interfaces/IUserCredentials';
+import {IUserCredentials} from './../../src/core/auth/IUserCredentials';
 import {OnlineResolver} from './../../src/core/auth/OnlineResolver';
 
 let creds: IUserCredentials = {
@@ -27,7 +27,7 @@ let authResponse: any = {
 
 let cookieString: string = `FedAuth=${authResponse.FedAuth}; rtFa=${authResponse.rtFa}`;
 
-describe('sp-request: OnlineResolver tests', () => {
+describe('sp-request: OnlineResolver', () => {
   let resolver: OnlineResolver;
   let siginStup: SinonStub;
 

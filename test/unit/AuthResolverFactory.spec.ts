@@ -2,8 +2,8 @@ import {expect} from 'chai';
 
 import {AuthResolverFactory} from './../../src/core/auth/AuthResolverFactory';
 import {IAuthOptions} from './../../src/core/auth/IAuthOptions';
-import {IUserCredentials} from './../../src/core/interfaces/IUserCredentials';
-import {IEnvironment} from './../../src/core/interfaces/IEnvironment';
+import {IUserCredentials} from './../../src/core/auth/IUserCredentials';
+import {IEnvironment} from './../../src/core/auth/IEnvironment';
 import {OnPremResolver} from './../../src/core/auth/OnPremResolver';
 import {OnlineResolver} from './../../src/core/auth/OnlineResolver';
 import {IAuthResolver} from './../../src/core/auth/IAuthResolver';
@@ -33,7 +33,7 @@ let onlineOptions: IAuthOptions = {
   env: undefined
 };
 
-describe('sp-request: AuthResolverFactory tests', () => {
+describe('sp-request: AuthResolverFactory', () => {
   it('should return on-premise resolver', () => {
     let resolver: IAuthResolver = AuthResolverFactory.Resolve(onpremOptions);
 

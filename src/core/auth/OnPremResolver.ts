@@ -10,7 +10,7 @@ let ntlm: any = require('httpntlm').ntlm;
 
 import {IAuthResolver} from './IAuthResolver';
 import {IAuthOptions} from './IAuthOptions';
-import {IEnvironment} from './../interfaces/IEnvironment';
+import {IEnvironment} from './IEnvironment';
 
 export class OnPremResolver implements IAuthResolver {
 

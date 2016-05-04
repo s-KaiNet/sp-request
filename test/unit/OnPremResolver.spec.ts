@@ -5,8 +5,8 @@ import * as mockery from 'mockery';
 import {OptionsWithUrl} from 'request';
 
 import {IAuthOptions} from './../../src/core/auth/IAuthOptions';
-import {IUserCredentials} from './../../src/core/interfaces/IUserCredentials';
-import {IEnvironment} from './../../src/core/interfaces/IEnvironment';
+import {IUserCredentials} from './../../src/core/auth/IUserCredentials';
+import {IEnvironment} from './../../src/core/auth/IEnvironment';
 import {OnPremResolver} from './../../src/core/auth/OnPremResolver';
 
 let creds: IUserCredentials = {
@@ -26,7 +26,7 @@ let onpremOptions: IAuthOptions = {
   }
 };
 
-describe('sp-request: OnPremResolver tests', () => {
+describe('sp-request: OnPremResolver', () => {
 
   let requestPromiseStub: SinonStub;
   let type1Message: string = 'type1Message';
