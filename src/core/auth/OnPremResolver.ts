@@ -13,17 +13,14 @@ import {IAuthOptions} from './IAuthOptions';
 import {IEnvironment} from './IEnvironment';
 
 export class OnPremResolver implements IAuthResolver {
-
-  constructor(private authOptions: IAuthOptions) { }
-
-  public ApplyAuthHeaders(): Promise<OptionsWithUrl> {
+  public ApplyAuthHeaders(authOptions: IAuthOptions): Promise<OptionsWithUrl> {
     let deferred: Promise.Resolver<OptionsWithUrl> = Promise.defer<OptionsWithUrl>();
 
-    let environmentOptions: IEnvironment = _.defaults(this.authOptions.env, <IEnvironment>{ domain: '', workstation: '' });
-    let ntlmOptions: any = _.assign(this.authOptions.credentials, environmentOptions);
-    ntlmOptions.url = this.authOptions.options.url;
+    let environmentOptions: IEnvironment = _.defaults(authOptions.env, <IEnvironment>{ domain: '', workstation: '' });
+    let ntlmOptions: any = _.assign(authOptions.credentials, environmentOptions);
+    ntlmOptions.url = authOptions.options.url;
 
-    let isHttps: boolean = url.parse(this.authOptions.options.url).protocol === 'https:';
+    let isHttps: boolean = url.parse(authOptions.options.url).protocol === 'https:';
 
     let keepaliveAgent: any = isHttps ? new agent.HttpsAgent() : new agent();
 
@@ -35,7 +32,7 @@ export class OnPremResolver implements IAuthResolver {
     }
 
     rp({
-      url: this.authOptions.options.url,
+      url: authOptions.options.url,
       method: 'GET',
       headers: {
         'Connection': 'keep-alive',
@@ -50,12 +47,12 @@ export class OnPremResolver implements IAuthResolver {
         let type2msg: any = ntlm.parseType2Message(response.headers['www-authenticate']);
         let type3msg: any = ntlm.createType3Message(type2msg, ntlmOptions);
 
-        this.authOptions.options.headers = this.authOptions.options.headers || {};
-        this.authOptions.options.headers['Connection'] = 'Close';
-        this.authOptions.options.headers['Authorization'] = type3msg;
-        this.authOptions.options.agent = keepaliveAgent;
+        authOptions.options.headers = authOptions.options.headers || {};
+        authOptions.options.headers['Connection'] = 'Close';
+        authOptions.options.headers['Authorization'] = type3msg;
+        authOptions.options.agent = keepaliveAgent;
 
-        deferred.resolve(this.authOptions.options);
+        deferred.resolve(authOptions.options);
       })
       .catch((err) => {
         deferred.reject(err);

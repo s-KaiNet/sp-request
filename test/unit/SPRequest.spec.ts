@@ -45,11 +45,11 @@ describe('sp-request: direct call tests - sprequest(...)', () => {
 
     mockery.registerMock('request-promise', requestPromiseStub);
 
-    authFactory = require('./../../src/core/auth/AuthResolverFactory').AuthResolverFactory;
+    authFactory = require('./../../src/core/auth/AuthResolverFactory');
     sprequest = require('./../../src/core/SPRequest');
 
-    authResolveStub = sinon.stub(authFactory, 'Resolve', (authOptions: IAuthOptions) => {
-      return new FakeAuthResolver(authOptions);
+    authResolveStub = sinon.stub(authFactory.AuthResolverFactory.prototype, 'Resolve', (authOptions: IAuthOptions) => {
+      return new FakeAuthResolver();
     });
   });
 
@@ -215,11 +215,11 @@ describe('sp-request: helper call tests - sprequest.get(...)', () => {
 
     mockery.registerMock('request-promise', requestPromiseStub);
 
-    authFactory = require('./../../src/core/auth/AuthResolverFactory').AuthResolverFactory;
+    authFactory = require('./../../src/core/auth/AuthResolverFactory');
     sprequest = require('./../../src/core/SPRequest');
 
-    authResolveStub = sinon.stub(authFactory, 'Resolve', (authOptions: IAuthOptions) => {
-      return new FakeAuthResolver(authOptions);
+    authResolveStub = sinon.stub(authFactory.AuthResolverFactory.prototype, 'Resolve', (authOptions: IAuthOptions) => {
+      return new FakeAuthResolver();
     });
   });
 
@@ -311,11 +311,11 @@ describe('sp-request: helper call tests - sprequest.post(...)', () => {
 
     mockery.registerMock('request-promise', requestPromiseStub);
 
-    authFactory = require('./../../src/core/auth/AuthResolverFactory').AuthResolverFactory;
+    authFactory = require('./../../src/core/auth/AuthResolverFactory');
     sprequest = require('./../../src/core/SPRequest');
 
-    authResolveStub = sinon.stub(authFactory, 'Resolve', (authOptions: IAuthOptions) => {
-      return new FakeAuthResolver(authOptions);
+    authResolveStub = sinon.stub(authFactory.AuthResolverFactory.prototype, 'Resolve', (authOptions: IAuthOptions) => {
+      return new FakeAuthResolver();
     });
   });
 
@@ -411,11 +411,11 @@ describe('sp-request: throws an error', () => {
 
     mockery.registerMock('request-promise', requestPromiseStub);
 
-    authFactory = require('./../../src/core/auth/AuthResolverFactory').AuthResolverFactory;
+    authFactory = require('./../../src/core/auth/AuthResolverFactory');
     sprequest = require('./../../src/core/SPRequest');
 
-    authResolveStub = sinon.stub(authFactory, 'Resolve', (authOptions: IAuthOptions) => {
-      return new FakeAuthResolver(authOptions);
+    authResolveStub = sinon.stub(authFactory.AuthResolverFactory.prototype, 'Resolve', (authOptions: IAuthOptions) => {
+      return new FakeAuthResolver();
     });
   });
 

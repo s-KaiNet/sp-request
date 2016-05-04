@@ -6,6 +6,7 @@ import * as Promise from 'bluebird';
 
 import {IUserCredentials} from './auth/IUserCredentials';
 import {IEnvironment} from './auth/IEnvironment';
+import {IAuthOptions} from './auth/IAuthOptions';
 import {AuthResolverFactory} from './auth/AuthResolverFactory';
 import {ISPRequest} from './ISPrequest';
 import {Cache} from './utils/Cache';
@@ -13,6 +14,7 @@ import {Cache} from './utils/Cache';
 export function create(credentials: IUserCredentials, environment?: IEnvironment): ISPRequest {
 
   let requestDigestCache: Cache = new Cache();
+  let resolversFactory: AuthResolverFactory = new AuthResolverFactory();
 
   let coreRequest: any = (options: OptionsWithUrl): Promise<IncomingMessage> => {
     let requestDeferred: Promise.Resolver<IncomingMessage> = Promise.defer<IncomingMessage>();
@@ -24,14 +26,15 @@ export function create(credentials: IUserCredentials, environment?: IEnvironment
     if (!options.headers['Accept']) {
       options.headers['Accept'] = 'application/json;odata=verbose';
     }
+    let authOptions: IAuthOptions = {
+      options: options,
+      credentials: credentials,
+      env: environment
+    };
 
-    AuthResolverFactory
-      .Resolve({
-        options: options,
-        credentials: credentials,
-        env: environment
-      })
-      .ApplyAuthHeaders()
+    resolversFactory
+      .Resolve(authOptions.options.url)
+      .ApplyAuthHeaders(authOptions)
       .then(requestp)
       .then((response: IncomingMessage) => {
         requestDeferred.resolve(response);

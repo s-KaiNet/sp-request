@@ -50,7 +50,7 @@ describe('sp-request: OnPremResolver', () => {
     mockery.registerMock('request-promise', requestPromiseStub);
 
     let resolverModule: any = require('./../../src/core/auth/OnPremResolver');
-    resolver = new resolverModule.OnPremResolver(onpremOptions);
+    resolver = new resolverModule.OnPremResolver();
     let ntlm: any = require('httpntlm').ntlm;
     sinon.stub(ntlm, 'createType1Message').returns(type1Message);
     sinon.stub(ntlm, 'parseType2Message').returns(type2Message);
@@ -68,7 +68,7 @@ describe('sp-request: OnPremResolver', () => {
       }
     });
 
-    resolver.ApplyAuthHeaders()
+    resolver.ApplyAuthHeaders(onpremOptions)
       .then((data) => {
         let call: SinonSpyCall = requestPromiseStub.getCall(0);
         let options: OptionsWithUrl = call.args[0];
@@ -90,7 +90,7 @@ describe('sp-request: OnPremResolver', () => {
       }
     });
 
-    resolver.ApplyAuthHeaders()
+    resolver.ApplyAuthHeaders(onpremOptions)
       .then((options: OptionsWithUrl) => {
         expect(options.headers['Authorization']).to.equal(type3Message);
         done();
@@ -104,7 +104,7 @@ describe('sp-request: OnPremResolver', () => {
     let error: string = 'err';
     requestDeferred.reject(error);
 
-    resolver.ApplyAuthHeaders()
+    resolver.ApplyAuthHeaders(onpremOptions)
       .then((options: OptionsWithUrl) => {
         //
       }, (err) => {

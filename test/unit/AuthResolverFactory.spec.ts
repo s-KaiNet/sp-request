@@ -35,13 +35,15 @@ let onlineOptions: IAuthOptions = {
 
 describe('sp-request: AuthResolverFactory', () => {
   it('should return on-premise resolver', () => {
-    let resolver: IAuthResolver = AuthResolverFactory.Resolve(onpremOptions);
+    let factory: AuthResolverFactory = new AuthResolverFactory();
+    let resolver: IAuthResolver = factory.Resolve(onpremOptions.options.url);
 
     expect(resolver instanceof OnPremResolver).is.true;
   });
 
   it('should return online resolver', () => {
-    let resolver: IAuthResolver = AuthResolverFactory.Resolve(onlineOptions);
+    let factory: AuthResolverFactory = new AuthResolverFactory();
+    let resolver: IAuthResolver = factory.Resolve(onlineOptions.options.url);
 
     expect(resolver instanceof OnlineResolver).is.true;
   });

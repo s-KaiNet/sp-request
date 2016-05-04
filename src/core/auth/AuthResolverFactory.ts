@@ -3,16 +3,29 @@ import * as url from 'url';
 import {IAuthResolver} from './IAuthResolver';
 import {OnPremResolver} from './OnPremResolver';
 import {OnlineResolver} from './OnlineResolver';
-import {IAuthOptions} from './IAuthOptions';
+import {Cache} from './../utils/Cache';
 
 export class AuthResolverFactory {
-  public static Resolve(authOptions: IAuthOptions): IAuthResolver {
-    let isOnPrem: boolean = (url.parse(authOptions.options.url)).host.indexOf('.sharepoint.com') === -1;
+  private _resolversCache: Cache = new Cache();
+  private _onpremKey: string = 'AuthResolverFactory_onprem';
+  private _onlineKey: string = 'AuthResolverFactory_online';
+
+  public Resolve(siteUrl: string): IAuthResolver {
+    let isOnPrem: boolean = (url.parse(siteUrl)).host.indexOf('.sharepoint.com') === -1;
 
     if (isOnPrem) {
-      return new OnPremResolver(authOptions);
+      let onpremResolver: OnPremResolver = this._resolversCache.get<OnPremResolver>(this._onpremKey);
+      if (!onpremResolver) {
+        this._resolversCache.set(this._onpremKey, new OnPremResolver());
+      }
+      return this._resolversCache.get<OnPremResolver>(this._onpremKey);
     }
 
-    return new OnlineResolver(authOptions);
+    let onlineResolver: OnlineResolver = this._resolversCache.get<OnlineResolver>(this._onlineKey);
+    if (!onlineResolver) {
+      this._resolversCache.set(this._onlineKey, new OnlineResolver());
+    }
+
+    return this._resolversCache.get<OnlineResolver>(this._onlineKey);
   }
 }

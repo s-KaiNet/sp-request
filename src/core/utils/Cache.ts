@@ -17,8 +17,6 @@ export class Cache {
       cacheItem = new CacheItem(data, now);
     } else if (expiration instanceof Date) {
       cacheItem = new CacheItem(data, expiration);
-    } else {
-      throw 'Invalid expiration type';
     }
 
     this._cache[key] = cacheItem;

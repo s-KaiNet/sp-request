@@ -4,6 +4,7 @@
     "chai": "registry:npm/chai#3.5.0+20160415060238",
     "index": "file:typings-custom/request-promise/index.d.ts",
     "lodash": "registry:npm/lodash#4.0.0+20160416211519",
+    "node-uuid": "registry:npm/node-uuid#1.4.7+20160503013124",
     "request": "registry:npm/request#2.69.0+20160304121250",
     "request-promise": "file:typings-custom/request-promise/request-promise.d.ts",
     "sinon": "registry:npm/sinon#1.16.0+20160427193336"

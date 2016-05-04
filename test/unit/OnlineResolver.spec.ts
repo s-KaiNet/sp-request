@@ -33,7 +33,7 @@ describe('sp-request: OnlineResolver', () => {
 
   beforeEach(() => {
     let resolverModule: any = require('./../../src/core/auth/OnlineResolver');
-    resolver = new resolverModule.OnlineResolver(onlineOptions);
+    resolver = new resolverModule.OnlineResolver();
     let sp: any = require('node-spoauth');
     siginStup = sinon.stub(sp.RestService.prototype, 'signin');
   });
@@ -48,7 +48,7 @@ describe('sp-request: OnlineResolver', () => {
       rtFa: 'rtfa'
     });
 
-    resolver.ApplyAuthHeaders()
+    resolver.ApplyAuthHeaders(onlineOptions)
       .then((options) => {
         expect(options.headers['Cookie']).to.equal(cookieString);
         done();
@@ -64,7 +64,7 @@ describe('sp-request: OnlineResolver', () => {
       rtFa: 'rtfa'
     });
 
-    resolver.ApplyAuthHeaders()
+    resolver.ApplyAuthHeaders(onlineOptions)
       .then((options) => {
         expect(options['secureOptions']).to.equal(consts.SSL_OP_NO_TLSv1_2);
         done();
@@ -78,7 +78,7 @@ describe('sp-request: OnlineResolver', () => {
     let error: string = 'error';
     siginStup.throws(error);
 
-    resolver.ApplyAuthHeaders()
+    resolver.ApplyAuthHeaders(onlineOptions)
       .then((options) => {
         //
       })
