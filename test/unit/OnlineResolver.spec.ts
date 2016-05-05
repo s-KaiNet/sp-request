@@ -29,21 +29,22 @@ let cookieString: string = `FedAuth=${authResponse.FedAuth}; rtFa=${authResponse
 
 describe('sp-request: OnlineResolver', () => {
   let resolver: OnlineResolver;
-  let siginStup: SinonStub;
+  let signinStub: SinonStub;
+  let sp: any;
 
   beforeEach(() => {
     let resolverModule: any = require('./../../src/core/auth/OnlineResolver');
     resolver = new resolverModule.OnlineResolver();
-    let sp: any = require('node-spoauth');
-    siginStup = sinon.stub(sp.RestService.prototype, 'signin');
+    sp = require('node-spoauth');
+    signinStub = sinon.stub(sp.RestService.prototype, 'signin');
   });
 
   afterEach(() => {
-    siginStup.restore();
+    signinStub.restore();
   });
 
   it('should set cookie header', (done) => {
-    siginStup.callsArgWith(2, null, {
+    signinStub.callsArgWith(2, null, {
       FedAuth: 'fedauth',
       rtFa: 'rtfa'
     });
@@ -59,7 +60,7 @@ describe('sp-request: OnlineResolver', () => {
   });
 
   it('should set secureOptions', (done) => {
-    siginStup.callsArgWith(2, null, {
+    signinStub.callsArgWith(2, null, {
       FedAuth: 'fedauth',
       rtFa: 'rtfa'
     });
@@ -74,13 +75,34 @@ describe('sp-request: OnlineResolver', () => {
       });
   });
 
-  it('should throws en error', (done) => {
+  it('should get value from cache', (done) => {
     let error: string = 'error';
-    siginStup.throws(error);
+    signinStub.callsArgWith(2, null, {
+      FedAuth: 'fedauth',
+      rtFa: 'rtfa'
+    });
 
     resolver.applyAuthHeaders(onlineOptions)
       .then((options) => {
-        //
+        signinStub.restore();
+        sinon.stub(sp.RestService.prototype, 'signin').throws(error);
+        return resolver.applyAuthHeaders(onlineOptions);
+      })
+      .then((options) => {
+        done();
+      })
+      .catch((err) => {
+        done(err);
+      });
+  });
+
+  it('should throws en error', (done) => {
+    let error: string = 'error';
+    signinStub.throws(error);
+    onlineOptions.options.url = 'https://host1.com';
+    resolver.applyAuthHeaders(onlineOptions)
+      .then((options) => {
+        done(new Error('should not call success handler'));
       })
       .catch((err) => {
         expect(err.name).to.equal(error);

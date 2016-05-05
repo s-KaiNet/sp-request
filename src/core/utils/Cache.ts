@@ -37,7 +37,7 @@ export class Cache {
     let now: Date = new Date();
 
     if (now > cacheItem.expiredOn) {
-      this._cache[key] = undefined;
+      this.remove(key);
       return undefined;
     } else {
       return cacheItem.data;

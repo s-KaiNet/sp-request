@@ -2,7 +2,6 @@ machine:
   node:
     version: 5.7.0
   environment:
-    COVERALLS_REPO_TOKEN: 1g9OGNxFP0mpKMEQKLRVhrbr19MT9ONPo
     COVERALLS_SERVICE_NAME: circle-ci
 
 test:
