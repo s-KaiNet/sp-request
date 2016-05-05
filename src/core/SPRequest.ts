@@ -80,8 +80,6 @@ export function create(credentials: IUserCredentials, environment?: IEnvironment
     let requestDeferred: Promise.Resolver<string> = Promise.defer<string>();
     let cachedDigest: string = requestDigestCache.get<string>(url);
 
-    requestDigestCache.set('mykey', 'myval');
-
     if (cachedDigest) {
       requestDeferred.resolve(cachedDigest);
       return requestDeferred.promise;

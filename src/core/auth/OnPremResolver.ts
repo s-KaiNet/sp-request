@@ -26,11 +26,6 @@ export class OnPremResolver implements IAuthResolver {
 
     let type1msg: any = ntlm.createType1Message(ntlmOptions);
 
-    /* workaround for on premise self signed or not trusted certificates */
-    if (isHttps) {
-      process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = '0';
-    }
-
     rp({
       url: authOptions.options.url,
       method: 'GET',
@@ -50,6 +45,7 @@ export class OnPremResolver implements IAuthResolver {
         authOptions.options.headers = authOptions.options.headers || {};
         authOptions.options.headers['Connection'] = 'Close';
         authOptions.options.headers['Authorization'] = type3msg;
+        authOptions.options.strictSSL = false;
         authOptions.options.agent = keepaliveAgent;
 
         deferred.resolve(authOptions.options);

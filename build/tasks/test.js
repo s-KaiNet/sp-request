@@ -25,7 +25,7 @@ module.exports = function (gulp, $) {
           mochaFile: './reports/test/testrun.xml'
         }
       }))
-  })
+  });
 
   gulp.task('testonly', ['pre-test'], function () {
     return gulp.src('./lib/test/unit/tests.js', { read: false })
@@ -44,5 +44,15 @@ module.exports = function (gulp, $) {
         includeUntested: true
       }))
       .pipe($.istanbul.hookRequire());
+  });
+
+  gulp.task('test-int', function(callback) {
+    $.rns('tsc', 'test-integration', callback);
+  });
+
+  gulp.task('test-integration', function () {
+    return gulp.src('./lib/test/integration/tests.js', { read: false })
+      .pipe($.plumber())
+      .pipe($.mocha({ reporter: 'spec' }));
   });
 };
