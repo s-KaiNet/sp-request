@@ -3,6 +3,7 @@ import {RequestPromiseOptions} from 'request-promise';
 import {IncomingMessage} from 'http';
 import * as requestp from 'request-promise';
 import * as Promise from 'bluebird';
+import * as _ from 'lodash';
 
 import {IUserCredentials} from './auth/IUserCredentials';
 import {IEnvironment} from './auth/IEnvironment';
@@ -23,9 +24,14 @@ export function create(credentials: IUserCredentials, environment?: IEnvironment
     (<RequestPromiseOptions>options).simple = true;
 
     options.headers = options.headers || {};
-    if (!options.headers['Accept']) {
-      options.headers['Accept'] = 'application/json;odata=verbose';
-    }
+
+    _.defaults(options.headers, {
+      'Accept': 'application/json;odata=verbose',
+      'Content-Type': 'application/json;odata=verbose'
+    });
+
+    _.defaults(options, { json: true });
+
     let authOptions: IAuthOptions = {
       options: options,
       credentials: credentials,
@@ -91,9 +97,8 @@ export function create(credentials: IUserCredentials, environment?: IEnvironment
       }
     })
       .then((response: IncomingMessage) => {
-        let data: any = JSON.parse(response.body);
-        let digest: string = data.d.GetContextWebInformation.FormDigestValue;
-        let timeout: number = parseInt(data.d.GetContextWebInformation.FormDigestTimeoutSeconds, 10);
+        let digest: string = response.body.d.GetContextWebInformation.FormDigestValue;
+        let timeout: number = parseInt(response.body.d.GetContextWebInformation.FormDigestTimeoutSeconds, 10);
         requestDigestCache.set(url, digest, timeout - 30);
         requestDeferred.resolve(digest);
       })

@@ -4,7 +4,12 @@ import * as Promise from 'bluebird';
 import {ISPRequest} from './../../src/core/ISPRequest';
 import * as sprequest from './../../src/core/SPRequest';
 
-import {onprem, online, env, url} from './config';
+let config: any = require('./config');
+
+let onprem: any = config.onprem;
+let online: any = config.online;
+let env: any = config.env;
+let url: any = config.url;
 
 let listTitle: string = 'SPRequestTesting';
 
@@ -30,7 +35,7 @@ describe('sp-request: integration - on-premise', () => {
           json: true,
           headers: {
             'X-RequestDigest': digest,
-            'content-type': 'application/json;odata=verbose'
+            'Content-Type': 'application/json;odata=verbose'
           }
         });
       })
@@ -99,7 +104,7 @@ describe('sp-request: integration - on-premise', () => {
           json: true,
           headers: {
             'X-RequestDigest': digest,
-            'content-type': 'application/json;odata=verbose'
+            'Content-Type': 'application/json;odata=verbose'
           },
           body: { '__metadata': { 'type': `SP.Data.${listTitle}ListItem` }, 'Title': 'Test' }
         });
@@ -152,7 +157,7 @@ describe('sp-request: integration - online', () => {
           json: true,
           headers: {
             'X-RequestDigest': digest,
-            'content-type': 'application/json;odata=verbose'
+            'Content-Type': 'application/json;odata=verbose'
           }
         });
       })
@@ -221,7 +226,7 @@ describe('sp-request: integration - online', () => {
           json: true,
           headers: {
             'X-RequestDigest': digest,
-            'content-type': 'application/json;odata=verbose'
+            'Content-Type': 'application/json;odata=verbose'
           },
           body: { '__metadata': { 'type': `SP.Data.${listTitle}ListItem` }, 'Title': 'Test' }
         });
