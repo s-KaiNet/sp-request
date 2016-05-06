@@ -456,18 +456,17 @@ describe('sp-request: get request digest', () => {
     let request: ISPRequest = sprequest.create(creds, env);
     let digest: string = 'digest value';
     let digestUrl: string = `${spUrl}/_api/contextinfo`;
-    let responseString: string = `
-    {
-      "d": {
-        "GetContextWebInformation": {
-          "FormDigestValue": "${digest}",
-          "FormDigestTimeoutSeconds": "0"
+    let response: any = {
+      d: {
+        GetContextWebInformation: {
+          FormDigestValue: digest,
+          FormDigestTimeoutSeconds: 0
         }
       }
-    }`;
+    };
 
     requestDeferred.resolve({
-      body: responseString
+      body: response
     });
 
     let postStup: SinonStub = sinon.stub(request, 'post').returns(requestDeferred.promise);
@@ -508,18 +507,17 @@ describe('sp-request: get request digest', () => {
 
     let request: ISPRequest = sprequest.create(creds, env);
     let digest: string = 'digest value';
-    let responseString: string = `
-    {
-      "d": {
-        "GetContextWebInformation": {
-          "FormDigestValue": "${digest}",
-          "FormDigestTimeoutSeconds": "100"
+    let response: any = {
+      d: {
+        GetContextWebInformation: {
+          FormDigestValue: digest,
+          FormDigestTimeoutSeconds: 100
         }
       }
-    }`;
+    };
 
     requestDeferred.resolve({
-      body: responseString
+      body: response
     });
 
     let postStup: SinonStub = sinon.stub(request, 'post').returns(requestDeferred.promise);
