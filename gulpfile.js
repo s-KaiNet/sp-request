@@ -2,7 +2,7 @@
 
 var gulp = require('gulp'),
   plugins = require('gulp-load-plugins')({
-    pattern: ['gulp-*', 'gulp.*', 'run-sequence', 'merge-stream', 'yargs'],
+    pattern: ['gulp-*', 'gulp.*', 'run-sequence', 'merge-stream', 'yargs', 'del'],
     rename: {
       'gulp-typescript': 'tsc',
       'run-sequence': 'rns',

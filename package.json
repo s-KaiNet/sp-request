@@ -1,6 +1,6 @@
 {
   "name": "sp-request",
-  "version": "1.0.0",
+  "version": "1.0.3",
   "description": "Simplified SharePoint HTTP client",
   "main": "./lib/src/index.js",
   "engines": {
@@ -29,6 +29,7 @@
   "devDependencies": {
     "chai": "^3.5.0",
     "coveralls": "^2.11.9",
+    "del": "^2.2.0",
     "gulp": "^3.9.1",
     "gulp-debug": "^2.1.2",
     "gulp-istanbul": "^0.10.4",
