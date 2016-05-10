@@ -1,8 +1,8 @@
-# sp-request - simplified SharePoint HTTP client 
+# sp-request - simplified SharePoint HTTP client
 [![Circle CI](https://circleci.com/gh/s-KaiNet/sp-request/tree/master.svg?style=shield&circle-token=c550cd1b34315e710c5e751dd4cffe5cb8e694fe)](https://circleci.com/gh/s-KaiNet/sp-request/tree/master)
 [![Coverage Status](https://coveralls.io/repos/github/s-KaiNet/sp-request/badge.svg?branch=master)](https://coveralls.io/github/s-KaiNet/sp-request?branch=master)
 
- `sp-request` based on [request](https://github.com/request/request) module and it's promise implementation [request-promise](https://github.com/request/request-promise). You can issue REST queries to SharePoint (works with both on-prem and online) using well-known `request` syntax with the same params that `request` supports, and `sp-request` takes care about authenticating you inside SharePoint. With help of `request-promise` and `bluebird` modules responses implemented using modern promise-style approach.
+ `sp-request` based on [request](https://github.com/request/request) module and its promise implementation [request-promise](https://github.com/request/request-promise). You can issue REST queries to SharePoint (works with both on-prem and online) using well-known `request` syntax with the same params that `request` supports, and `sp-request` takes care about authenticating you inside SharePoint. With help of `request-promise` and `bluebird`, responses implemented using modern promise-style approach.
 
 ---
 
@@ -47,5 +47,5 @@ spr.requestDigest('http://sp2013dev/sites/dev')
       console.log(err);
     }
   });
-```  
+```
 ## More info and npm package coming soon...

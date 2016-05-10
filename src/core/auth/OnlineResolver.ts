@@ -2,6 +2,7 @@ import {OptionsWithUrl} from 'request';
 import * as Promise from 'bluebird';
 import * as consts from 'constants';
 import * as url from 'url';
+import * as util from 'util';
 
 let sp: any = require('node-spoauth');
 
@@ -16,15 +17,15 @@ export class OnlineResolver implements IAuthResolver {
   public applyAuthHeaders(authOptions: IAuthOptions): Promise<OptionsWithUrl> {
     let deferred: Promise.Resolver<OptionsWithUrl> = Promise.defer<OptionsWithUrl>();
 
-    this.applyHeaders(authOptions, deferred, 1);
+    this.applyHeaders(authOptions, deferred);
 
     return deferred.promise;
   }
 
-  private applyHeaders(authOptions: IAuthOptions, deferred: Promise.Resolver<OptionsWithUrl>, attempts: number): void {
+  private applyHeaders(authOptions: IAuthOptions, deferred: Promise.Resolver<OptionsWithUrl>): void {
     let host: string = url.parse(authOptions.options.url).host;
-
-    let cachedCookie: string = OnlineResolver._cookieCache.get<string>(host);
+    let cacheKey: string = util.format('%s@%s', host, authOptions.credentials.username);
+    let cachedCookie: string = OnlineResolver._cookieCache.get<string>(cacheKey);
 
     if (cachedCookie) {
       this.setHeaders(authOptions.options, cachedCookie);
@@ -41,7 +42,7 @@ export class OnlineResolver implements IAuthResolver {
     signin(authOptions.credentials.username, authOptions.credentials.password)
       .then((auth) => {
         let cookie: string = `FedAuth=${auth.FedAuth}; rtFa=${auth.rtFa}`;
-        OnlineResolver._cookieCache.set(host, cookie, 10 * 60);
+        OnlineResolver._cookieCache.set(cacheKey, cookie, 10 * 60);
         this.setHeaders(authOptions.options, cookie);
 
         deferred.resolve(authOptions.options);

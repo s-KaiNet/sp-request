@@ -1,8 +1,11 @@
 {
   "name": "sp-request",
   "version": "1.0.0",
-  "description": "",
-  "main": "lib/index.js",
+  "description": "Simplified SharePoint HTTP client",
+  "main": "./lib/src/index.js",
+  "engines": {
+    "node": ">=5.0.0 <5.12.0"
+  },
   "scripts": {
     "test": "gulp test-ci",
     "build": "npm install && gulp tsc",
@@ -12,12 +15,17 @@
     "type": "git",
     "url": "git+https://github.com/s-KaiNet/sp-request.git"
   },
-  "author": "Sergei Sergeev",
+  "author": "Sergei Sergeev <sergeev.srg@gmail.com>",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/s-KaiNet/sp-request/issues"
   },
-  "homepage": "https://github.com/s-KaiNet/sp-request#readme",
+  "keywords": [
+    "request",
+    "sharepoint",
+    "rest"
+  ],
+  "homepage": "https://github.com/s-KaiNet/sp-request",
   "devDependencies": {
     "chai": "^3.5.0",
     "coveralls": "^2.11.9",
@@ -30,21 +38,22 @@
     "gulp-sourcemaps": "^2.0.0-alpha",
     "gulp-tslint": "^5.0.0",
     "gulp-typescript": "^2.13.0",
-    "httpntlm": "^1.5.3",
-    "lodash": "^4.11.1",
     "merge-stream": "^1.0.0",
     "mocha-junit-reporter": "^1.11.1",
     "mockery": "^1.6.2",
-    "node-spoauth": "^1.0.0",
-    "node-uuid": "^1.4.7",
     "remap-istanbul": "^0.6.3",
-    "request": "^2.72.0",
-    "request-promise": "^3.0.0",
     "run-sequence": "^1.1.5",
     "sinon": "^1.17.3",
-    "source-map-support": "^0.4.0",
     "tslint": "^3.8.1",
     "typings": "^0.8.1",
     "yargs": "^4.6.0"
+  },
+  "dependencies": {
+    "agentkeepalive": "^2.1.1",
+    "httpntlm": "^1.6.1",
+    "lodash": "^4.12.0",
+    "node-spoauth": "^1.0.0",
+    "request": "^2.72.0",
+    "request-promise": "^3.0.0"
   }
 }

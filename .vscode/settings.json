@@ -1,0 +1,11 @@
+{
+  "editor.renderWhitespace": true,
+  "editor.tabSize": 2,
+  "files.trimTrailingWhitespace": true,
+  "files.exclude": {
+    "node_modules/": true,
+    "**/*.js": { "when": "$(basename).ts"},
+    "**/*.js.map": true
+  },
+  "editor.wrappingColumn": 5000
+}

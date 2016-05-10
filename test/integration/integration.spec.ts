@@ -32,10 +32,8 @@ describe('sp-request: integration - on-premise', () => {
             'Description': 'Test list',
             'Title': listTitle
           },
-          json: true,
           headers: {
-            'X-RequestDigest': digest,
-            'Content-Type': 'application/json;odata=verbose'
+            'X-RequestDigest': digest
           }
         });
       })
@@ -56,15 +54,12 @@ describe('sp-request: integration - on-premise', () => {
   after('Deleting test list', function (done: MochaDone): void {
     this.timeout(10 * 1000);
 
-    Promise.all([request.requestDigest(url.onprem), request.get(`${url.onprem}/_api/web/lists/GetByTitle('${listTitle}')`, {
-      json: true
-    })])
+    Promise.all([request.requestDigest(url.onprem), request.get(`${url.onprem}/_api/web/lists/GetByTitle('${listTitle}')`)])
       .then((data) => {
         let digest: string = data[0];
         let listId: string = data[1].body.d.Id;
 
         return request.post(`${url.onprem}/_api/web/lists('${listId}')`, {
-          json: true,
           headers: {
             'X-RequestDigest': digest,
             'X-HTTP-Method': 'DELETE',
@@ -83,9 +78,7 @@ describe('sp-request: integration - on-premise', () => {
   it('should get list title', function (done: MochaDone): void {
     this.timeout(10 * 1000);
 
-    request.get(`${url.onprem}/_api/web/lists/GetByTitle('${listTitle}')`, {
-      json: true
-    })
+    request.get(`${url.onprem}/_api/web/lists/GetByTitle('${listTitle}')`)
       .then((data) => {
         expect(data.body.d.Title).to.equal(listTitle);
         done();
@@ -101,10 +94,8 @@ describe('sp-request: integration - on-premise', () => {
     request.requestDigest(url.onprem)
       .then((digest) => {
         return request.post(`${url.onprem}/_api/web/lists/GetByTitle('${listTitle}')/items`, {
-          json: true,
           headers: {
-            'X-RequestDigest': digest,
-            'Content-Type': 'application/json;odata=verbose'
+            'X-RequestDigest': digest
           },
           body: { '__metadata': { 'type': `SP.Data.${listTitle}ListItem` }, 'Title': 'Test' }
         });
@@ -121,9 +112,7 @@ describe('sp-request: integration - on-premise', () => {
   it('should get list item by id', function (done: MochaDone): void {
     this.timeout(10 * 1000);
 
-    request.get(`${url.onprem}/_api/web/lists/GetByTitle('${listTitle}')/items(1)`, {
-      json: true
-    })
+    request.get(`${url.onprem}/_api/web/lists/GetByTitle('${listTitle}')/items(1)`)
       .then((data) => {
         expect(data.body.d.Title).to.equal('Test');
         done();
@@ -154,10 +143,8 @@ describe('sp-request: integration - online', () => {
             'Description': 'Test list',
             'Title': listTitle
           },
-          json: true,
           headers: {
-            'X-RequestDigest': digest,
-            'Content-Type': 'application/json;odata=verbose'
+            'X-RequestDigest': digest
           }
         });
       })
@@ -178,9 +165,7 @@ describe('sp-request: integration - online', () => {
   after('Deleting test list', function (done: MochaDone): void {
     this.timeout(10 * 1000);
 
-    Promise.all([request.requestDigest(url.online), request.get(`${url.online}/_api/web/lists/GetByTitle('${listTitle}')`, {
-      json: true
-    })])
+    Promise.all([request.requestDigest(url.online), request.get(`${url.online}/_api/web/lists/GetByTitle('${listTitle}')`)])
       .then((data) => {
         let digest: string = data[0];
         let listId: string = data[1].body.d.Id;
@@ -205,9 +190,7 @@ describe('sp-request: integration - online', () => {
   it('should get list title', function (done: MochaDone): void {
     this.timeout(10 * 1000);
 
-    request.get(`${url.online}/_api/web/lists/GetByTitle('${listTitle}')`, {
-      json: true
-    })
+    request.get(`${url.online}/_api/web/lists/GetByTitle('${listTitle}')`)
       .then((data) => {
         expect(data.body.d.Title).to.equal(listTitle);
         done();
@@ -223,7 +206,6 @@ describe('sp-request: integration - online', () => {
     request.requestDigest(url.online)
       .then((digest) => {
         return request.post(`${url.online}/_api/web/lists/GetByTitle('${listTitle}')/items`, {
-          json: true,
           headers: {
             'X-RequestDigest': digest,
             'Content-Type': 'application/json;odata=verbose'
@@ -243,9 +225,7 @@ describe('sp-request: integration - online', () => {
   it('should get list item by id', function (done: MochaDone): void {
     this.timeout(10 * 1000);
 
-    request.get(`${url.online}/_api/web/lists/GetByTitle('${listTitle}')/items(1)`, {
-      json: true
-    })
+    request.get(`${url.online}/_api/web/lists/GetByTitle('${listTitle}')/items(1)`)
       .then((data) => {
         expect(data.body.d.Title).to.equal('Test');
         done();

@@ -4,6 +4,7 @@ import {IncomingMessage} from 'http';
 import * as requestp from 'request-promise';
 import * as Promise from 'bluebird';
 import * as _ from 'lodash';
+import * as util from 'util';
 
 import {IUserCredentials} from './auth/IUserCredentials';
 import {IEnvironment} from './auth/IEnvironment';
@@ -12,9 +13,10 @@ import {AuthResolverFactory} from './auth/AuthResolverFactory';
 import {ISPRequest} from './ISPrequest';
 import {Cache} from './utils/Cache';
 
+let requestDigestCache: Cache = new Cache();
+
 export function create(credentials: IUserCredentials, environment?: IEnvironment): ISPRequest {
 
-  let requestDigestCache: Cache = new Cache();
   let resolversFactory: AuthResolverFactory = new AuthResolverFactory();
 
   let coreRequest: any = (options: OptionsWithUrl): Promise<IncomingMessage> => {
@@ -84,22 +86,19 @@ export function create(credentials: IUserCredentials, environment?: IEnvironment
   spRequestFunc.requestDigest = (siteUrl: string) => {
     let url: string = siteUrl.replace(/\/$/, '');
     let requestDeferred: Promise.Resolver<string> = Promise.defer<string>();
-    let cachedDigest: string = requestDigestCache.get<string>(url);
+    let cacheKey: string = util.format('%s@%s', url, credentials.username);
+    let cachedDigest: string = requestDigestCache.get<string>(cacheKey);
 
     if (cachedDigest) {
       requestDeferred.resolve(cachedDigest);
       return requestDeferred.promise;
     }
 
-    spRequestFunc.post(`${url}/_api/contextinfo`, {
-      headers: {
-        'content-length': '0'
-      }
-    })
+    spRequestFunc.post(`${url}/_api/contextinfo`)
       .then((response: IncomingMessage) => {
         let digest: string = response.body.d.GetContextWebInformation.FormDigestValue;
         let timeout: number = parseInt(response.body.d.GetContextWebInformation.FormDigestTimeoutSeconds, 10);
-        requestDigestCache.set(url, digest, timeout - 30);
+        requestDigestCache.set(cacheKey, digest, timeout - 30);
         requestDeferred.resolve(digest);
       })
       .catch((err) => {

@@ -7,11 +7,11 @@ module.exports = function (gulp, $) {
 
     var tsSourcesResult = gulp.src(['./src/**/*.ts', './typings/main.d.ts'])
       .pipe($.sourcemaps.init())
-      .pipe($.tsc(tsconfig));
+      .pipe($.tsc(tsconfig.compilerOptions));
 
     var tsTestsResult = gulp.src(['./test/**/*.ts', './typings/main.d.ts'])
       .pipe($.sourcemaps.init())
-      .pipe($.tsc(tsconfig));
+      .pipe($.tsc(tsconfig.compilerOptions));
 
     var sources = tsSourcesResult.js
       .pipe($.sourcemaps.write('.'))
@@ -19,7 +19,7 @@ module.exports = function (gulp, $) {
 
     var tests = tsTestsResult.js
       .pipe($.sourcemaps.write('.'))
-      .pipe(gulp.dest('./lib/test'));
+      .pipe(gulp.dest('./lib'));
 
       return $.merge(sources, tests);
   });
