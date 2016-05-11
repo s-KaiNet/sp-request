@@ -10,6 +10,15 @@
 ---
 
 ### How to use:
+#### Install:
+```bash
+npm install sp-request --save-dev
+```
+#### Optionally install definitions if you are developing with TypeScript:
+```bash
+typings install npm:sp-request --save
+```
+#### Create sprequest function:
 ```javascript
 var spr = require('sp-request').create({username: 'user', password: 'pass'});
 ```

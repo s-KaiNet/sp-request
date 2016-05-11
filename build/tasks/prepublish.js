@@ -3,15 +3,18 @@ module.exports = function (gulp, $) {
 
   var tsconfig = require('./../../tsconfig.json');
 
-gulp.task('clean', function () {
-  return $.del(['./lib/**/*']);
-});
+  gulp.task('clean', function () {
+    return $.del(['lib/**']);
+  });
 
   gulp.task('prepublish', ['clean'], function () {
     var tsSourcesResult = gulp.src(['./src/**/*.ts', './typings/main.d.ts'])
       .pipe($.tsc(tsconfig.compilerOptions));
 
-    return tsSourcesResult.js
-      .pipe(gulp.dest('./lib/src'));
+    return $.merge[
+      tsSourcesResult.js
+        .pipe(gulp.dest('./lib/src')),
+      tsSourcesResult.dts
+        .pipe(gulp.dest('./lib/src'))];
   });
 };
