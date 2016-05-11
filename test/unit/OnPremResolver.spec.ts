@@ -3,6 +3,7 @@ import * as sinon from 'sinon';
 import {SinonStub, SinonSpyCall} from 'sinon';
 import * as mockery from 'mockery';
 import {OptionsWithUrl} from 'request';
+import * as Promise from 'bluebird';
 
 import {IAuthOptions} from './../../src/core/auth/IAuthOptions';
 import {IUserCredentials} from './../../src/core/auth/IUserCredentials';

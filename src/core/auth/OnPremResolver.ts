@@ -1,11 +1,9 @@
 import {OptionsWithUrl} from 'request';
 import * as Promise from 'bluebird';
-import * as url from 'url';
 import * as _ from 'lodash';
 import * as rp from 'request-promise';
 import {IncomingMessage} from 'http';
 
-let agent: any = require('agentkeepalive');
 let ntlm: any = require('httpntlm').ntlm;
 
 import {IAuthResolver} from './IAuthResolver';
@@ -20,10 +18,6 @@ export class OnPremResolver implements IAuthResolver {
     let ntlmOptions: any = _.assign(authOptions.credentials, environmentOptions);
     ntlmOptions.url = authOptions.options.url;
 
-    let isHttps: boolean = url.parse(authOptions.options.url).protocol === 'https:';
-
-    let keepaliveAgent: any = isHttps ? new agent.HttpsAgent() : new agent();
-
     let type1msg: any = ntlm.createType1Message(ntlmOptions);
 
     rp({
@@ -34,7 +28,7 @@ export class OnPremResolver implements IAuthResolver {
         'Authorization': type1msg,
         'Accept': 'application/json;odata=verbose'
       },
-      agent: keepaliveAgent,
+      forever: true,
       resolveWithFullResponse: true,
       simple: false
     })
@@ -43,10 +37,8 @@ export class OnPremResolver implements IAuthResolver {
         let type3msg: any = ntlm.createType3Message(type2msg, ntlmOptions);
 
         authOptions.options.headers = authOptions.options.headers || {};
-        authOptions.options.headers['Connection'] = 'Close';
         authOptions.options.headers['Authorization'] = type3msg;
         authOptions.options.strictSSL = false;
-        authOptions.options.agent = keepaliveAgent;
 
         deferred.resolve(authOptions.options);
       })
