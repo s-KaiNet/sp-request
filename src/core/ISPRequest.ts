@@ -1,5 +1,6 @@
 import {OptionsWithUrl, CoreOptions} from 'request';
 import {IncomingMessage} from 'http';
+import './IncomingMessageWithBody';
 import * as Promise from 'bluebird';
 
 export interface ISPRequest {

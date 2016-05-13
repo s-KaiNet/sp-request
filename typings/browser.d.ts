@@ -2,7 +2,6 @@
 /// <reference path="browser/ambient/mocha/index.d.ts" />
 /// <reference path="browser/ambient/mockery/index.d.ts" />
 /// <reference path="browser/ambient/node/index.d.ts" />
-/// <reference path="browser/ambient/request-ex/index.d.ts" />
 /// <reference path="browser/ambient/request-promise/index.d.ts" />
 /// <reference path="browser/definitions/bluebird/index.d.ts" />
 /// <reference path="browser/definitions/chai/index.d.ts" />
