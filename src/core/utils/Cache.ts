@@ -49,6 +49,10 @@ export class Cache {
     delete this._cache[key];
   }
 
+  public clear(): void {
+    this._cache = {};
+  }
+
   private getHashKey(key: string): string {
     return crypto.createHash('md5').update(key).digest('hex');
   }

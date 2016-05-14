@@ -22,6 +22,14 @@ describe('sp-request: Cache', () => {
     expect(data).to.be.undefined;
   });
 
+  it('should clear the cache', () => {
+    let key: string = 'key';
+    cache.set(key, 'value');
+    cache.clear();
+
+    expect(cache.get(key)).to.be.undefined;
+  });
+
   it('should return item from cache with expiration in sec', () => {
     let key: string = 'cache key';
     let value: any = { data: 'some data' };

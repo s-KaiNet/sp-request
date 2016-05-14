@@ -1,8 +1,11 @@
 import {expect} from 'chai';
 import * as Promise from 'bluebird';
+import {IncomingMessage} from 'http';
 
 import {ISPRequest} from './../../src/core/ISPRequest';
 import * as sprequest from './../../src/core/SPRequest';
+import {requestDigestCache} from './../../src/core/SPRequest';
+import {Cache} from './../../src/core/utils/Cache';
 
 let config: any = require('./config');
 
@@ -71,6 +74,34 @@ describe('sp-request: integration - on-premise', () => {
         done();
       })
       .catch((err) => {
+        done(err);
+      });
+  });
+
+  it('should not throw 401 when running multiple simultaneous requests', function (done: MochaDone) {
+    this.timeout(20 * 1000);
+
+    let promises: Promise<IncomingMessage>[] = [];
+
+    requestDigestCache.clear();
+
+    for (let i: number = 0; i < 10; i++) {
+      request.requestDigest(url.onprem)
+        .then(digest => {
+          let promise: Promise<IncomingMessage> = request.get(`${url.onprem}/_api/web/lists/GetByTitle('${listTitle}')`);
+          promises.push(promise);
+          return promise;
+        })
+        .catch(err => {
+          done(err);
+        });
+    }
+
+    Promise.all(promises)
+      .then(data => {
+        done();
+      })
+      .catch(err => {
         done(err);
       });
   });

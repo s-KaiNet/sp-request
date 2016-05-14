@@ -1,6 +1,6 @@
 {
   "name": "sp-request",
-  "version": "1.0.11",
+  "version": "1.0.15",
   "description": "Simplified SharePoint HTTP client",
   "main": "./lib/src/index.js",
   "engines": {
@@ -50,6 +50,7 @@
     "yargs": "^4.6.0"
   },
   "dependencies": {
+    "agentkeepalive": "^2.1.1",
     "bluebird": "^3.3.5",
     "httpntlm": "^1.6.1",
     "lodash": "^4.12.0",

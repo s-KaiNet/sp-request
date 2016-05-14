@@ -1,7 +1,6 @@
 import {OptionsWithUrl, CoreOptions} from 'request';
 import {RequestPromiseOptions} from 'request-promise';
 import {IncomingMessage} from 'http';
-import './IncomingMessageWithBody';
 import * as requestp from 'request-promise';
 import * as Promise from 'bluebird';
 import * as _ from 'lodash';
@@ -14,7 +13,7 @@ import {AuthResolverFactory} from './auth/AuthResolverFactory';
 import {ISPRequest} from './ISPRequest';
 import {Cache} from './utils/Cache';
 
-let requestDigestCache: Cache = new Cache();
+export var requestDigestCache: Cache = new Cache();
 
 export function create(credentials: IUserCredentials, environment?: IEnvironment): ISPRequest {
 
