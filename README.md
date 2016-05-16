@@ -112,6 +112,7 @@ The same as `sprequest(options)` but `options.url` will be equal to the first pa
 I recommend using VS Code for development. Repository already contains some settings for VS Code editor.
 
 Before creating Pull Request you need to create an appropriate issue and reference it from PR.
+
 1. `git clone https://github.com/s-KaiNet/sp-request.git`
 2. `npm run build` - restores dependencies and runs typescript compilation
 3. `gulp live-dev` - setup watchers and automatically runs typescript compilation, tslint and tests when you save files
