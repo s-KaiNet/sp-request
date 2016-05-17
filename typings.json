@@ -1,5 +1,5 @@
 {
-  "ambientDependencies": {
+  "globalDependencies": {
     "es6-promise": "registry:dt/es6-promise#0.0.0+20160423074304",
     "node": "registry:env/node#4.0.0+20160507210304",
     "request-promise": "file:typings-custom/request-promise/request-promise.d.ts"
@@ -14,7 +14,7 @@
     "form-data": "registry:npm/form-data#1.0.0+20160211003958",
     "sinon": "registry:npm/sinon#1.16.0+20160427193336"
   },
-  "ambientDevDependencies": {
+  "globalDevDependencies": {
     "mocha": "registry:env/mocha#2.2.5+20160321223601",
     "mockery": "registry:dt/mockery#1.4.0+20160316155526"
   }

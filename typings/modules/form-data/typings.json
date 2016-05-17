@@ -1,0 +1,12 @@
+{
+  "resolution": "main",
+  "tree": {
+    "src": "https://raw.githubusercontent.com/typed-typings/npm-form-data/edc32200ec6065d98bfaa7ff9cfd104e17c5d3e4/typings.json",
+    "raw": "registry:npm/form-data#1.0.0+20160211003958",
+    "main": "lib/form_data.d.ts",
+    "browser": "lib/browser.d.ts",
+    "global": false,
+    "name": "form-data",
+    "type": "typings"
+  }
+}

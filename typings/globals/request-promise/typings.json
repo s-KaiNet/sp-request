@@ -1,0 +1,8 @@
+{
+  "resolution": "main",
+  "tree": {
+    "src": "c:\\Projects\\sp-request\\typings-custom\\request-promise\\request-promise.d.ts",
+    "raw": "file:typings-custom/request-promise/request-promise.d.ts",
+    "typings": "c:\\Projects\\sp-request\\typings-custom\\request-promise\\request-promise.d.ts"
+  }
+}
