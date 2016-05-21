@@ -42,7 +42,7 @@ export class OnlineResolver implements IAuthResolver {
     signin(authOptions.credentials.username, authOptions.credentials.password)
       .then((auth) => {
         let cookie: string = `FedAuth=${auth.FedAuth}; rtFa=${auth.rtFa}`;
-        OnlineResolver._cookieCache.set(cacheKey, cookie, 10 * 60);
+        OnlineResolver._cookieCache.set(cacheKey, cookie, 30 * 60);
         this.setHeaders(authOptions.options, cookie);
 
         deferred.resolve(authOptions.options);
