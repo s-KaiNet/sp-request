@@ -5,7 +5,6 @@ import {IncomingMessage} from 'http';
 import {ISPRequest} from './../../src/core/ISPRequest';
 import * as sprequest from './../../src/core/SPRequest';
 import {requestDigestCache} from './../../src/core/SPRequest';
-import {Cache} from './../../src/core/utils/Cache';
 
 let config: any = require('./config');
 
@@ -78,7 +77,7 @@ describe('sp-request: integration - on-premise', () => {
       });
   });
 
-  it('should not throw 401 when running multiple simultaneous requests', function (done: MochaDone) {
+  it('should not throw 401 when running multiple simultaneous requests', function (done: MochaDone): void {
     this.timeout(20 * 1000);
 
     let promises: Promise<IncomingMessage>[] = [];
