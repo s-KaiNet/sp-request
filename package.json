@@ -1,6 +1,6 @@
 {
   "name": "sp-request",
-  "version": "1.0.16",
+  "version": "1.0.17",
   "description": "Simplified SharePoint HTTP client",
   "main": "./lib/src/index.js",
   "engines": {
