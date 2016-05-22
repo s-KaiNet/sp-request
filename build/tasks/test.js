@@ -39,7 +39,7 @@ module.exports = function (gulp, $) {
   });
 
   gulp.task('pre-test', function () {
-    return gulp.src(['./lib/src/**/*.js', '!./lib/src/index.js'])
+    return gulp.src(['./lib/src/**/*.js', '!./lib/src/index.js', '!./lib/src/core/IncomingMessageWithBody.js', '!./lib/src/core/ISPRequest.js'])
       .pipe($.istanbul({
         includeUntested: true
       }))
