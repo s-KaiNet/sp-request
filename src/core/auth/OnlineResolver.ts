@@ -15,41 +15,33 @@ export class OnlineResolver implements IAuthResolver {
   private static _cookieCache: Cache = new Cache();
 
   public applyAuthHeaders(authOptions: IAuthOptions): Promise<OptionsWithUrl> {
-    let deferred: Promise.Resolver<OptionsWithUrl> = Promise.defer<OptionsWithUrl>();
+    return new Promise<OptionsWithUrl>((resolve, reject) => {
+      let host: string = url.parse(authOptions.options.url).host;
+      let cacheKey: string = util.format('%s@%s', host, authOptions.credentials.username);
+      let cachedCookie: string = OnlineResolver._cookieCache.get<string>(cacheKey);
 
-    this.applyHeaders(authOptions, deferred);
+      if (cachedCookie) {
+        this.setHeaders(authOptions.options, cachedCookie);
 
-    return deferred.promise;
-  }
+        resolve(authOptions.options);
+        return;
+      }
 
-  private applyHeaders(authOptions: IAuthOptions, deferred: Promise.Resolver<OptionsWithUrl>): void {
-    let host: string = url.parse(authOptions.options.url).host;
-    let cacheKey: string = util.format('%s@%s', host, authOptions.credentials.username);
-    let cachedCookie: string = OnlineResolver._cookieCache.get<string>(cacheKey);
+      let service: any = new sp.RestService(authOptions.options.url);
 
-    if (cachedCookie) {
-      this.setHeaders(authOptions.options, cachedCookie);
+      let signin: (username: string, password: string) => Promise<any> =
+        Promise.promisify<any, string, string>(service.signin, { context: service });
 
-      deferred.resolve(authOptions.options);
-      return;
-    }
+      signin(authOptions.credentials.username, authOptions.credentials.password)
+        .then((auth) => {
+          let cookie: string = `FedAuth=${auth.FedAuth}; rtFa=${auth.rtFa}`;
+          OnlineResolver._cookieCache.set(cacheKey, cookie, 30 * 60);
+          this.setHeaders(authOptions.options, cookie);
 
-    let service: any = new sp.RestService(authOptions.options.url);
-
-    let signin: (username: string, password: string) => Promise<any> =
-      Promise.promisify<any, string, string>(service.signin, { context: service });
-
-    signin(authOptions.credentials.username, authOptions.credentials.password)
-      .then((auth) => {
-        let cookie: string = `FedAuth=${auth.FedAuth}; rtFa=${auth.rtFa}`;
-        OnlineResolver._cookieCache.set(cacheKey, cookie, 30 * 60);
-        this.setHeaders(authOptions.options, cookie);
-
-        deferred.resolve(authOptions.options);
-      })
-      .catch((err) => {
-        deferred.reject(err);
-      });
+          resolve(authOptions.options);
+        })
+        .catch(reject);
+    });
   }
 
   private setHeaders(options: OptionsWithUrl, cookie: string): void {

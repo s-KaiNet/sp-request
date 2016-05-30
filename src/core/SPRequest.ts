@@ -20,38 +20,34 @@ export function create(credentials: IUserCredentials, environment?: IEnvironment
   let resolversFactory: AuthResolverFactory = new AuthResolverFactory();
 
   let coreRequest: any = (options: OptionsWithUrl): Promise<IncomingMessage> => {
-    let requestDeferred: Promise.Resolver<IncomingMessage> = Promise.defer<IncomingMessage>();
+    return new Promise<IncomingMessage>((resolve, reject) => {
+      (<RequestPromiseOptions>options).resolveWithFullResponse = true;
+      (<RequestPromiseOptions>options).simple = true;
 
-    (<RequestPromiseOptions>options).resolveWithFullResponse = true;
-    (<RequestPromiseOptions>options).simple = true;
+      options.headers = options.headers || {};
 
-    options.headers = options.headers || {};
-
-    _.defaults(options.headers, {
-      'Accept': 'application/json;odata=verbose',
-      'Content-Type': 'application/json;odata=verbose'
-    });
-
-    _.defaults(options, { json: true });
-
-    let authOptions: IAuthOptions = {
-      options: options,
-      credentials: credentials,
-      env: environment
-    };
-
-    resolversFactory
-      .resolve(authOptions.options.url)
-      .applyAuthHeaders(authOptions)
-      .then(requestp)
-      .then((response: IncomingMessage) => {
-        requestDeferred.resolve(response);
-      })
-      .catch((err) => {
-        requestDeferred.reject(err);
+      _.defaults(options.headers, {
+        'Accept': 'application/json;odata=verbose',
+        'Content-Type': 'application/json;odata=verbose'
       });
 
-    return requestDeferred.promise;
+      _.defaults(options, { json: true });
+
+      let authOptions: IAuthOptions = {
+        options: options,
+        credentials: credentials,
+        env: environment
+      };
+
+      resolversFactory
+        .resolve(authOptions.options.url)
+        .applyAuthHeaders(authOptions)
+        .then(requestp)
+        .then((response: IncomingMessage) => {
+          resolve(response);
+        })
+        .catch(reject);
+    });
   };
 
   let spRequestFunc: any = (options: OptionsWithUrl | string, coreOptions?: CoreOptions): Promise<IncomingMessage> => {
@@ -84,28 +80,25 @@ export function create(credentials: IUserCredentials, environment?: IEnvironment
   };
 
   spRequestFunc.requestDigest = (siteUrl: string) => {
-    let url: string = siteUrl.replace(/\/$/, '');
-    let requestDeferred: Promise.Resolver<string> = Promise.defer<string>();
-    let cacheKey: string = util.format('%s@%s', url, credentials.username);
-    let cachedDigest: string = requestDigestCache.get<string>(cacheKey);
+    return new Promise<string>((resolve, reject) => {
+      let url: string = siteUrl.replace(/\/$/, '');
+      let cacheKey: string = util.format('%s@%s', url, credentials.username);
+      let cachedDigest: string = requestDigestCache.get<string>(cacheKey);
 
-    if (cachedDigest) {
-      requestDeferred.resolve(cachedDigest);
-      return requestDeferred.promise;
-    }
+      if (cachedDigest) {
+        resolve(cachedDigest);
+        return;
+      }
 
-    spRequestFunc.post(`${url}/_api/contextinfo`)
-      .then((response: IncomingMessage) => {
-        let digest: string = response.body.d.GetContextWebInformation.FormDigestValue;
-        let timeout: number = parseInt(response.body.d.GetContextWebInformation.FormDigestTimeoutSeconds, 10);
-        requestDigestCache.set(cacheKey, digest, timeout - 30);
-        requestDeferred.resolve(digest);
-      })
-      .catch((err) => {
-        requestDeferred.reject(err);
-      });
-
-    return requestDeferred.promise;
+      spRequestFunc.post(`${url}/_api/contextinfo`)
+        .then((response: IncomingMessage) => {
+          let digest: string = response.body.d.GetContextWebInformation.FormDigestValue;
+          let timeout: number = parseInt(response.body.d.GetContextWebInformation.FormDigestTimeoutSeconds, 10);
+          requestDigestCache.set(cacheKey, digest, timeout - 30);
+          resolve(digest);
+        })
+        .catch(reject);
+    });
   };
 
   ['get', 'post'].forEach((method: string) => {
