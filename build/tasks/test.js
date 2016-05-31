@@ -46,7 +46,7 @@ module.exports = function (gulp, $) {
       .pipe($.istanbul.hookRequire());
   });
 
-  gulp.task('test-int', function(callback) {
+  gulp.task('test-int', function (callback) {
     $.rns('tsc', 'test-integration', callback);
   });
 

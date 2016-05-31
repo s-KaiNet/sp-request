@@ -3,13 +3,13 @@ import * as sinon from 'sinon';
 import {SinonStub, SinonSpyCall} from 'sinon';
 import * as mockery from 'mockery';
 import {OptionsWithUrl} from 'request';
-import * as Promise from 'bluebird';
 
 import {ISPRequest} from './../../src/core/ISPRequest';
 import {IAuthOptions} from './../../src/core/auth/IAuthOptions';
 import {FakeAuthResolver} from './fakes/FakeAuthResolver';
 import {IUserCredentials} from './../../src/core/auth/IUserCredentials';
 import {IEnvironment} from './../../src/core/auth/IEnvironment';
+import {defer, IDeferred} from './../../src/core/utils/Defer';
 
 let spUrl: string = 'https://your_sp_api_endpoint';
 
@@ -39,7 +39,7 @@ describe('sp-request: direct call tests - sprequest(...)', () => {
       useCleanCache: true
     });
 
-    let requestDeferred: Promise.Resolver<any> = Promise.defer();
+    let requestDeferred: IDeferred<any> = defer();
     requestDeferred.resolve({ statusCode: 200 });
 
     requestPromiseStub = sinon.stub().returns(requestDeferred.promise);
@@ -209,7 +209,7 @@ describe('sp-request: helper call tests - sprequest.get(...)', () => {
       useCleanCache: true
     });
 
-    let requestDeferred: Promise.Resolver<any> = Promise.defer();
+    let requestDeferred: IDeferred<any> = defer();
     requestDeferred.resolve({ statusCode: 200 });
 
     requestPromiseStub = sinon.stub().returns(requestDeferred.promise);
@@ -305,7 +305,7 @@ describe('sp-request: helper call tests - sprequest.post(...)', () => {
       useCleanCache: true
     });
 
-    let requestDeferred: Promise.Resolver<any> = Promise.defer();
+    let requestDeferred: IDeferred<any> = defer();
     requestDeferred.resolve({ statusCode: 200 });
 
     requestPromiseStub = sinon.stub().returns(requestDeferred.promise);
@@ -392,10 +392,9 @@ describe('sp-request: throws an error', () => {
   let requestPromiseStub: SinonStub;
   let sprequest: any;
   let authFactory: any;
-  let error: any = {
-    message: 'Uknown error occurred',
-    code: 1
-  };
+
+  let error: Error = new Error('Uknown error occurred');
+
 
   beforeEach(() => {
 
@@ -405,7 +404,7 @@ describe('sp-request: throws an error', () => {
       useCleanCache: true
     });
 
-    let requestDeferred: Promise.Resolver<any> = Promise.defer();
+    let requestDeferred: IDeferred<any> = defer();
     requestDeferred.reject(error);
 
     requestPromiseStub = sinon.stub().returns(requestDeferred.promise);
@@ -433,7 +432,7 @@ describe('sp-request: throws an error', () => {
       .then((data) => {
         //
       }, (err) => {
-        expect(err.code).to.equal(error.code);
+        expect(err).to.equal(error);
         done();
       })
       .catch((err) => {
@@ -452,7 +451,7 @@ describe('sp-request: get request digest', () => {
 
 
   it('should retrun request digest', (done) => {
-    let requestDeferred: Promise.Resolver<any> = Promise.defer();
+    let requestDeferred: IDeferred<any> = defer();
 
     let request: ISPRequest = sprequest.create(creds, env);
     let digest: string = 'digest value';
@@ -488,8 +487,8 @@ describe('sp-request: get request digest', () => {
 
   it('should throw an error', (done) => {
     let request: ISPRequest = sprequest.create(creds, env);
-    let requestDeferred: Promise.Resolver<any> = Promise.defer();
-    let error: string = 'unexpected error';
+    let requestDeferred: IDeferred<any> = defer();
+    let error: Error = new Error('unexpected error');
     requestDeferred.reject(error);
 
     sinon.stub(request, 'post').returns(requestDeferred.promise);
@@ -504,7 +503,7 @@ describe('sp-request: get request digest', () => {
   });
 
   it('should retrun request digest from cache on subsequence calls', (done) => {
-    let requestDeferred: Promise.Resolver<any> = Promise.defer();
+    let requestDeferred: IDeferred<any> = defer();
 
     let request: ISPRequest = sprequest.create(creds, env);
     let digest: string = 'digest value';

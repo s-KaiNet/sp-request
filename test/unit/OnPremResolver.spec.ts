@@ -3,12 +3,12 @@ import * as sinon from 'sinon';
 import {SinonStub, SinonSpyCall} from 'sinon';
 import * as mockery from 'mockery';
 import {OptionsWithUrl} from 'request';
-import * as Promise from 'bluebird';
 
 import {IAuthOptions} from './../../src/core/auth/IAuthOptions';
 import {IUserCredentials} from './../../src/core/auth/IUserCredentials';
 import {IEnvironment} from './../../src/core/auth/IEnvironment';
 import {OnPremResolver} from './../../src/core/auth/OnPremResolver';
+import {defer, IDeferred} from './../../src/core/utils/Defer';
 
 let creds: IUserCredentials = {
   username: 'user',
@@ -34,7 +34,7 @@ describe('sp-request: OnPremResolver', () => {
   let type2Message: string = 'type2Message';
   let type3Message: string = 'type3Message';
   let resolver: OnPremResolver;
-  let requestDeferred: Promise.Resolver<any>;
+  let requestDeferred: IDeferred<any>;
 
   beforeEach(() => {
 
@@ -44,7 +44,7 @@ describe('sp-request: OnPremResolver', () => {
       useCleanCache: true
     });
 
-    requestDeferred = Promise.defer();
+    requestDeferred = defer();
 
     requestPromiseStub = sinon.stub().returns(requestDeferred.promise);
 
@@ -102,7 +102,7 @@ describe('sp-request: OnPremResolver', () => {
   });
 
   it('should throw en error in case of promise rejection', (done) => {
-    let error: string = 'err';
+    let error: Error = new Error('err');
     requestDeferred.reject(error);
 
     resolver.applyAuthHeaders(onpremOptions)

@@ -96,6 +96,8 @@ export function create(credentials: IUserCredentials, environment?: IEnvironment
           let timeout: number = parseInt(response.body.d.GetContextWebInformation.FormDigestTimeoutSeconds, 10);
           requestDigestCache.set(cacheKey, digest, timeout - 30);
           resolve(digest);
+
+          return null;
         })
         .catch(reject);
     });

@@ -49,6 +49,8 @@ export class OnPremResolver implements IAuthResolver {
           (<any>authOptions.options).agent = keepaliveAgent;
 
           resolve(authOptions.options);
+
+          return null;
         })
         .catch(reject);
     });

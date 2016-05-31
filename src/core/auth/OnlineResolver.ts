@@ -39,6 +39,8 @@ export class OnlineResolver implements IAuthResolver {
           this.setHeaders(authOptions.options, cookie);
 
           resolve(authOptions.options);
+
+          return null;
         })
         .catch(reject);
     });
