@@ -1,10 +1,8 @@
 import {expect} from 'chai';
 import * as Promise from 'bluebird';
-import {IncomingMessage} from 'http';
 
 import {ISPRequest} from './../../src/core/ISPRequest';
 import * as sprequest from './../../src/core/SPRequest';
-import {requestDigestCache} from './../../src/core/SPRequest';
 
 let config: any = require('./config');
 
