@@ -36,7 +36,8 @@ export class OnPremResolver implements IAuthResolver {
         },
         agent: keepaliveAgent,
         resolveWithFullResponse: true,
-        simple: false
+        simple: false,
+        rejectUnauthorized: false
       })
         .then((response: IncomingMessage) => {
           let type2msg: any = ntlm.parseType2Message(response.headers['www-authenticate']);
@@ -45,6 +46,7 @@ export class OnPremResolver implements IAuthResolver {
           authOptions.options.headers = authOptions.options.headers || {};
           authOptions.options.headers['Connection'] = 'Close';
           authOptions.options.headers['Authorization'] = type3msg;
+          (<any>authOptions.options).rejectUnauthorized = false;
           authOptions.options.strictSSL = false;
           (<any>authOptions.options).agent = keepaliveAgent;
 
