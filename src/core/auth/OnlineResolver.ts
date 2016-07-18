@@ -32,6 +32,9 @@ export class OnlineResolver implements IAuthResolver {
       let signin: (username: string, password: string) => Promise<any> =
         Promise.promisify<any, string, string>(service.signin, { context: service });
 
+      authOptions.credentials.username = authOptions.credentials.username.replace(/&amp;/g, '&').replace(/&/g, '&amp;');
+      authOptions.credentials.password = authOptions.credentials.password.replace(/&amp;/g, '&').replace(/&/g, '&amp;');
+
       signin(authOptions.credentials.username, authOptions.credentials.password)
         .then((auth) => {
           let cookie: string = `FedAuth=${auth.FedAuth}; rtFa=${auth.rtFa}`;

@@ -59,6 +59,63 @@ describe('sp-request: OnlineResolver', () => {
       });
   });
 
+  it('should replace ampersand symbol', (done) => {
+    signinStub.callsArgWith(2, null, {
+      FedAuth: 'fedauth',
+      rtFa: 'rtfa'
+    });
+
+    onlineOptions.credentials.password = 'p&ss&';
+    onlineOptions.credentials.username = 'new_user1';
+
+    resolver.applyAuthHeaders(onlineOptions)
+      .then((options) => {
+        expect(onlineOptions.credentials.password).to.equal('p&amp;ss&amp;');
+        done();
+      })
+      .catch((err) => {
+        done(err);
+      });
+  });
+
+  it('should not replace ampersand html code', (done) => {
+    signinStub.callsArgWith(2, null, {
+      FedAuth: 'fedauth',
+      rtFa: 'rtfa'
+    });
+
+    onlineOptions.credentials.password = 'p&amp;ss';
+    onlineOptions.credentials.username = 'new_user2';
+
+    resolver.applyAuthHeaders(onlineOptions)
+      .then((options) => {
+        expect(onlineOptions.credentials.password).to.equal('p&amp;ss');
+        done();
+      })
+      .catch((err) => {
+        done(err);
+      });
+  });
+
+  it('should not replace ampersand html code but replace ampersand symbol', (done) => {
+    signinStub.callsArgWith(2, null, {
+      FedAuth: 'fedauth',
+      rtFa: 'rtfa'
+    });
+
+    onlineOptions.credentials.password = 'p&amp;ss&';
+    onlineOptions.credentials.username = 'new_user3';
+
+    resolver.applyAuthHeaders(onlineOptions)
+      .then((options) => {
+        expect(onlineOptions.credentials.password).to.equal('p&amp;ss&amp;');
+        done();
+      })
+      .catch((err) => {
+        done(err);
+      });
+  });
+
   it('should set secureOptions', (done) => {
     signinStub.callsArgWith(2, null, {
       FedAuth: 'fedauth',
