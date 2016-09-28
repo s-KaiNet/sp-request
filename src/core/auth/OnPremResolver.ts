@@ -37,7 +37,8 @@ export class OnPremResolver implements IAuthResolver {
         agent: keepaliveAgent,
         resolveWithFullResponse: true,
         simple: false,
-        rejectUnauthorized: false
+        rejectUnauthorized: false,
+        strictSSL: false
       })
         .then((response: IncomingMessage) => {
           let type2msg: any = ntlm.parseType2Message(response.headers['www-authenticate']);
