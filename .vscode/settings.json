@@ -7,5 +7,7 @@
     "**/*.js": { "when": "$(basename).ts"},
     "**/*.js.map": true
   },
-  "editor.wrappingColumn": 5000
+  "editor.wrappingColumn": 5000,
+  "files.autoSave": "afterDelay",
+  "files.autoSaveDelay": 1000
 }

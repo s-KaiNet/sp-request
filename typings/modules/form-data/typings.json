@@ -5,7 +5,6 @@
     "raw": "registry:npm/form-data#1.0.0+20160211003958",
     "main": "lib/form_data.d.ts",
     "browser": "lib/browser.d.ts",
-    "global": false,
     "name": "form-data",
     "type": "typings"
   }

@@ -1,21 +1,34 @@
-import {IUserCredentials} from './../../src/core/auth/IUserCredentials';
-import {IEnvironment} from './../../src/core/auth/IEnvironment';
+import {
+  IUserCredentials,
+  IOnpremiseUserCredentials,
+  IOnPremiseAddinCredentials,
+  IOnlineAddinCredentials
+} from 'node-sp-auth';
 
-export var onprem: IUserCredentials = {
-  username: '[user]',
-  password: '[pass]'
+export var onlineUrl: string = '[sharepoint online url]';
+export var onpremAdfsEnabledUrl: string = '[sharepint on premise url with adfs configured]';
+export var onpremNtlmEnabledUrl: string = '[sharepint on premise url with ntlm]]';
+
+export var onlineCreds: IUserCredentials = {
+  username: '[username]',
+  password: '[password]'
 };
 
-export var env: IEnvironment = {
-  domain: 'sp'
+export var onpremCreds: IOnpremiseUserCredentials = {
+  username: '[username]',
+  domain: '[domain]',
+  password: '[password]'
 };
 
-export var online: IUserCredentials = {
-  username: '[user]',
-  password: '[pass]'
+export var onpremAddinOnly: IOnPremiseAddinCredentials = {
+  clientId: '[clientId]',
+  issuerId: '[issuerId]',
+  realm: '[realm]',
+  rsaPrivateKeyPath: '[rsaPrivateKeyPath]',
+  shaThumbprint: '[shaThumbprint]'
 };
 
-export var url: any = {
-  online: 'https://[domain].sharepoint.com',
-  onprem: 'http://onprem/sharepoint/url'
+export var onlineAddinOnly: IOnlineAddinCredentials = {
+  clientId: '[clientId]',
+  clientSecret: '[clientSecret]'
 };

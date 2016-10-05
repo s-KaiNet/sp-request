@@ -3,22 +3,16 @@ import * as sinon from 'sinon';
 import {SinonStub, SinonSpyCall} from 'sinon';
 import * as mockery from 'mockery';
 import {OptionsWithUrl} from 'request';
+import * as spauth from 'node-sp-auth';
 
 import {ISPRequest} from './../../src/core/ISPRequest';
-import {IAuthOptions} from './../../src/core/auth/IAuthOptions';
-import {FakeAuthResolver} from './fakes/FakeAuthResolver';
-import {IUserCredentials} from './../../src/core/auth/IUserCredentials';
-import {IEnvironment} from './../../src/core/auth/IEnvironment';
-import {defer, IDeferred} from './../../src/core/utils/Defer';
+import {defer, IDeferred} from './Defer';
 
 let spUrl: string = 'https://your_sp_api_endpoint';
 
-let creds: IUserCredentials = {
+let creds: spauth.IOnpremiseUserCredentials = {
   username: 'user',
-  password: 'pass'
-};
-
-let env: IEnvironment = {
+  password: 'pass',
   domain: 'sp'
 };
 
@@ -26,10 +20,8 @@ let defaultAcceptHeader: string = 'application/json;odata=verbose';
 
 describe('sp-request: direct call tests - sprequest(...)', () => {
 
-  let authResolveStub: SinonStub;
   let requestPromiseStub: SinonStub;
   let sprequest: any;
-  let authFactory: any;
 
   beforeEach(() => {
 
@@ -45,23 +37,38 @@ describe('sp-request: direct call tests - sprequest(...)', () => {
     requestPromiseStub = sinon.stub().returns(requestDeferred.promise);
 
     mockery.registerMock('request-promise', requestPromiseStub);
-
-    authFactory = require('./../../src/core/auth/AuthResolverFactory');
-    sprequest = require('./../../src/core/SPRequest');
-
-    authResolveStub = sinon.stub(authFactory.AuthResolverFactory.prototype, 'resolve', (authOptions: IAuthOptions) => {
-      return new FakeAuthResolver();
+    mockery.registerMock('node-sp-auth', {
+      getAuth: (data: any) => {
+        return Promise.resolve({});
+      }
     });
+
+    sprequest = require('./../../src/core/SPRequest');
   });
 
   afterEach(() => {
-    authResolveStub.restore();
     mockery.disable();
+  });
+
+  it('should assign workstation (1.x compitability)', (done) => {
+
+    let workstation: string = 'workstation';
+    let request: ISPRequest = sprequest.create(creds, {workstation: workstation});
+
+    request(spUrl)
+      .then((data) => {
+        expect(creds.workstation).is.equals(workstation);
+
+        done();
+      })
+      .catch((err) => {
+        done(err);
+      });
   });
 
   it('should call request-promise', (done) => {
 
-    let request: ISPRequest = sprequest.create(creds, env);
+    let request: ISPRequest = sprequest.create(creds);
 
     request(spUrl)
       .then((data) => {
@@ -76,7 +83,7 @@ describe('sp-request: direct call tests - sprequest(...)', () => {
 
   it('should call request-promise with "GET" method when provided directly', (done) => {
 
-    let request: ISPRequest = sprequest.create(creds, env);
+    let request: ISPRequest = sprequest.create(creds);
 
     request(spUrl, {
       method: 'GET'
@@ -98,7 +105,7 @@ describe('sp-request: direct call tests - sprequest(...)', () => {
 
   it('should call request-promise with "POST" method when provided directly', (done) => {
 
-    let request: ISPRequest = sprequest.create(creds, env);
+    let request: ISPRequest = sprequest.create(creds);
 
     request(spUrl, {
       method: 'POST'
@@ -117,7 +124,7 @@ describe('sp-request: direct call tests - sprequest(...)', () => {
 
   it('should set default accept header', (done) => {
 
-    let request: ISPRequest = sprequest.create(creds, env);
+    let request: ISPRequest = sprequest.create(creds);
 
     request(spUrl)
       .then((data) => {
@@ -136,7 +143,7 @@ describe('sp-request: direct call tests - sprequest(...)', () => {
 
   it('should call request-promise with method "GET" when called with string param', (done) => {
 
-    let request: ISPRequest = sprequest.create(creds, env);
+    let request: ISPRequest = sprequest.create(creds);
 
     request(spUrl)
       .then((data) => {
@@ -155,7 +162,7 @@ describe('sp-request: direct call tests - sprequest(...)', () => {
 
   it('should call request-promise with method "GET" when called with options object', (done) => {
 
-    let request: ISPRequest = sprequest.create(creds, env);
+    let request: ISPRequest = sprequest.create(creds);
 
     request({
       url: spUrl
@@ -176,7 +183,7 @@ describe('sp-request: direct call tests - sprequest(...)', () => {
 
   it('should call request-promise with method "GET" when called with string as first param and object as second', (done) => {
 
-    let request: ISPRequest = sprequest.create(creds, env);
+    let request: ISPRequest = sprequest.create(creds);
 
     request(spUrl, {})
       .then((data) => {
@@ -196,10 +203,8 @@ describe('sp-request: direct call tests - sprequest(...)', () => {
 
 describe('sp-request: helper call tests - sprequest.get(...)', () => {
 
-  let authResolveStub: SinonStub;
   let requestPromiseStub: SinonStub;
   let sprequest: any;
-  let authFactory: any;
 
   beforeEach(() => {
 
@@ -216,22 +221,22 @@ describe('sp-request: helper call tests - sprequest.get(...)', () => {
 
     mockery.registerMock('request-promise', requestPromiseStub);
 
-    authFactory = require('./../../src/core/auth/AuthResolverFactory');
     sprequest = require('./../../src/core/SPRequest');
 
-    authResolveStub = sinon.stub(authFactory.AuthResolverFactory.prototype, 'resolve', (authOptions: IAuthOptions) => {
-      return new FakeAuthResolver();
+    mockery.registerMock('node-sp-auth', {
+      getAuth: (data: any) => {
+        return Promise.resolve({});
+      }
     });
   });
 
   afterEach(() => {
-    authResolveStub.restore();
     mockery.disable();
   });
 
   it('should call request-promise with method "GET" when called with string param', (done) => {
 
-    let request: ISPRequest = sprequest.create(creds, env);
+    let request: ISPRequest = sprequest.create(creds);
 
     request.get(spUrl)
       .then((data) => {
@@ -250,7 +255,7 @@ describe('sp-request: helper call tests - sprequest.get(...)', () => {
 
   it('should call request-promise with method "GET" when called with options object', (done) => {
 
-    let request: ISPRequest = sprequest.create(creds, env);
+    let request: ISPRequest = sprequest.create(creds);
 
     request.get({
       url: spUrl
@@ -271,7 +276,7 @@ describe('sp-request: helper call tests - sprequest.get(...)', () => {
 
   it('should call request-promise with method "GET" when called with string as first param and object as second', (done) => {
 
-    let request: ISPRequest = sprequest.create(creds, env);
+    let request: ISPRequest = sprequest.create(creds);
 
     request.get(spUrl, {})
       .then((data) => {
@@ -292,10 +297,8 @@ describe('sp-request: helper call tests - sprequest.get(...)', () => {
 
 describe('sp-request: helper call tests - sprequest.post(...)', () => {
 
-  let authResolveStub: SinonStub;
   let requestPromiseStub: SinonStub;
   let sprequest: any;
-  let authFactory: any;
 
   beforeEach(() => {
 
@@ -312,22 +315,22 @@ describe('sp-request: helper call tests - sprequest.post(...)', () => {
 
     mockery.registerMock('request-promise', requestPromiseStub);
 
-    authFactory = require('./../../src/core/auth/AuthResolverFactory');
     sprequest = require('./../../src/core/SPRequest');
 
-    authResolveStub = sinon.stub(authFactory.AuthResolverFactory.prototype, 'resolve', (authOptions: IAuthOptions) => {
-      return new FakeAuthResolver();
+    mockery.registerMock('node-sp-auth', {
+      getAuth: (data: any) => {
+        return Promise.resolve({});
+      }
     });
   });
 
   afterEach(() => {
-    authResolveStub.restore();
     mockery.disable();
   });
 
   it('should call request-promise with method "GET" when called with string param', (done) => {
 
-    let request: ISPRequest = sprequest.create(creds, env);
+    let request: ISPRequest = sprequest.create(creds);
 
     request.post(spUrl)
       .then((data) => {
@@ -346,7 +349,7 @@ describe('sp-request: helper call tests - sprequest.post(...)', () => {
 
   it('should call request-promise with method "GET" when called with options object', (done) => {
 
-    let request: ISPRequest = sprequest.create(creds, env);
+    let request: ISPRequest = sprequest.create(creds);
 
     request.post({
       url: spUrl
@@ -367,7 +370,7 @@ describe('sp-request: helper call tests - sprequest.post(...)', () => {
 
   it('should call request-promise with method "GET" when called with string as first param and object as second', (done) => {
 
-    let request: ISPRequest = sprequest.create(creds, env);
+    let request: ISPRequest = sprequest.create(creds);
 
     request.post(spUrl, {})
       .then((data) => {
@@ -388,10 +391,8 @@ describe('sp-request: helper call tests - sprequest.post(...)', () => {
 
 describe('sp-request: throws an error', () => {
 
-  let authResolveStub: SinonStub;
   let requestPromiseStub: SinonStub;
   let sprequest: any;
-  let authFactory: any;
 
   let error: Error = new Error('Uknown error occurred');
 
@@ -411,22 +412,22 @@ describe('sp-request: throws an error', () => {
 
     mockery.registerMock('request-promise', requestPromiseStub);
 
-    authFactory = require('./../../src/core/auth/AuthResolverFactory');
     sprequest = require('./../../src/core/SPRequest');
 
-    authResolveStub = sinon.stub(authFactory.AuthResolverFactory.prototype, 'resolve', (authOptions: IAuthOptions) => {
-      return new FakeAuthResolver();
+    mockery.registerMock('node-sp-auth', {
+      getAuth: (data: any) => {
+        return Promise.resolve({});
+      }
     });
   });
 
   afterEach(() => {
-    authResolveStub.restore();
     mockery.disable();
   });
 
   it('should throw an error', (done) => {
 
-    let request: ISPRequest = sprequest.create(creds, env);
+    let request: ISPRequest = sprequest.create(creds);
 
     request.get(spUrl, {})
       .then((data) => {
@@ -453,7 +454,7 @@ describe('sp-request: get request digest', () => {
   it('should retrun request digest', (done) => {
     let requestDeferred: IDeferred<any> = defer();
 
-    let request: ISPRequest = sprequest.create(creds, env);
+    let request: ISPRequest = sprequest.create(creds);
     let digest: string = 'digest value';
     let digestUrl: string = `${spUrl}/_api/contextinfo`;
     let response: any = {
@@ -486,7 +487,7 @@ describe('sp-request: get request digest', () => {
   });
 
   it('should throw an error', (done) => {
-    let request: ISPRequest = sprequest.create(creds, env);
+    let request: ISPRequest = sprequest.create(creds);
     let requestDeferred: IDeferred<any> = defer();
     let error: Error = new Error('unexpected error');
     requestDeferred.reject(error);
@@ -505,7 +506,7 @@ describe('sp-request: get request digest', () => {
   it('should retrun request digest from cache on subsequence calls', (done) => {
     let requestDeferred: IDeferred<any> = defer();
 
-    let request: ISPRequest = sprequest.create(creds, env);
+    let request: ISPRequest = sprequest.create(creds);
     let digest: string = 'digest value';
     let response: any = {
       d: {

@@ -10,16 +10,24 @@ let listTitle: string = 'SPRequestTesting';
 
 let tests: any[] = [
   {
-    name: 'on-premise',
-    creds: config.onprem,
-    env: config.env,
-    url: config.url.onprem
+    name: 'on-premise user password',
+    creds: config.onpremCreds,
+    url: config.onpremNtlmEnabledUrl
   },
   {
-    name: 'online',
-    creds: config.online,
-    env: undefined,
-    url: config.url.online
+    name: 'on-premise addin only',
+    creds: config.onpremAddinOnly,
+    url: config.onpremAdfsEnabledUrl
+  },
+  {
+    name: 'online user password',
+    creds: config.onlineCreds,
+    url: config.onlineUrl
+  },
+  {
+    name: 'online addin only',
+    creds: config.onlineAddinOnly,
+    url: config.onlineUrl
   }
 ];
 
@@ -28,9 +36,9 @@ tests.forEach(test => {
     let request: ISPRequest;
 
     before('Creating test list', function (done: any): void {
-      this.timeout(10 * 1000);
+      this.timeout(30 * 1000);
 
-      request = sprequest.create(test.creds, test.env);
+      request = sprequest.create(test.creds);
 
       request.requestDigest(test.url)
         .then((digest) => {
@@ -63,7 +71,7 @@ tests.forEach(test => {
     });
 
     after('Deleting test list', function (done: MochaDone): void {
-      this.timeout(10 * 1000);
+      this.timeout(30 * 1000);
 
       Promise.all([request.requestDigest(test.url), request.get(`${test.url}/_api/web/lists/GetByTitle('${listTitle}')`)])
         .then((data) => {
@@ -87,7 +95,7 @@ tests.forEach(test => {
     });
 
     it('should get list title', function (done: MochaDone): void {
-      this.timeout(10 * 1000);
+      this.timeout(30 * 1000);
 
       request.get(`${test.url}/_api/web/lists/GetByTitle('${listTitle}')`)
         .then((data) => {
@@ -100,7 +108,7 @@ tests.forEach(test => {
     });
 
     it('should create list item', function (done: MochaDone): void {
-      this.timeout(10 * 1000);
+      this.timeout(30 * 1000);
 
       request.requestDigest(test.url)
         .then((digest) => {
@@ -121,7 +129,7 @@ tests.forEach(test => {
     });
 
     it('should get list item by id', function (done: MochaDone): void {
-      this.timeout(10 * 1000);
+      this.timeout(30 * 1000);
 
       request.get(`${test.url}/_api/web/lists/GetByTitle('${listTitle}')/items(1)`)
         .then((data) => {

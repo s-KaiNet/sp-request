@@ -63,7 +63,7 @@ spr.requestDigest('http://sp2013dev/sites/dev')
 ... as simple as that! A bit more samples you can find under [integration tests](https://github.com/s-KaiNet/sp-request/blob/master/test/integration/integration.spec.ts)
 
 ## API:
-##### [main sp-request export].create(credentials, environment):
+### [main sp-request export].create(credentials, environment):
  - **_credentials_:** required, object containing user credentials:
    - _username_ - required string
    - _password_ - required string
@@ -72,7 +72,7 @@ spr.requestDigest('http://sp2013dev/sites/dev')
    - _workstation_ - optional string
 
 Call to `require('sp-request').create({username: 'user', password: 'pass'})` returns sprequest function with predefined username and password. You can use this function later to send REST queries (like in samples above) without specifying credentials again.
-##### sprequest(options):
+### sprequest(options):
  - **_options_**: required, settings object for `request` module. For all available values refer to the original [request docs](https://github.com/request/request#requestoptions-callback)
 
 By default `sp-request` sets following params for `request`:
@@ -87,22 +87,22 @@ By default `sp-request` sets following params for `request`:
 ```
 as a result you can access `body.d` property as an object. You can provide your own headers and override defaults if it's required.
 The only difference from original `request`, that `sp-request` returns Bluebird's `Promise` (ES2015 promise implementation), instead of relying on callbacks. So you can combine multiple requests in a convenient and readable way.
-##### sprequest.requestDigest(url):
+### sprequest.requestDigest(url):
  - _url_ - required, string site url
 
 Returns request digest as string via promise.
 ## Convenience methods:
-##### sprequest(url, options):
+### sprequest(url, options):
  - _url_ - required, string
  - _options_ - required, `request` options object
 
 The same as `sprequest(options)` but `options.url` will be equal to the first param.
-##### sprequest.get(url, options)
+### sprequest.get(url, options)
  - _url_ - required, string
  - _options_ - optional, `request` options object
 
 The same as `sprequest(options)` but `options.url` will be equal to the first param and `options.method: 'GET'`.
-##### sprequest.post(url, options)
+### sprequest.post(url, options)
  - _url_ - required, string
  - _options_ - optional, `request` options object
 

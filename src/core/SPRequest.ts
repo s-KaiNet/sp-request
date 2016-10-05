@@ -1,23 +1,25 @@
-import {OptionsWithUrl, CoreOptions} from 'request';
-import {RequestPromiseOptions} from 'request-promise';
-import {IncomingMessage} from 'http';
-import * as requestp from 'request-promise';
+import { OptionsWithUrl, CoreOptions } from 'request';
+import { RequestPromiseOptions } from 'request-promise';
+import { IncomingMessage } from 'http';
+import * as request from 'request-promise';
 import * as Promise from 'bluebird';
 import * as _ from 'lodash';
 import * as util from 'util';
+import * as spauth from 'node-sp-auth';
+import * as crypto from 'crypto';
 
-import {IUserCredentials} from './auth/IUserCredentials';
-import {IEnvironment} from './auth/IEnvironment';
-import {IAuthOptions} from './auth/IAuthOptions';
-import {AuthResolverFactory} from './auth/AuthResolverFactory';
-import {ISPRequest} from './ISPRequest';
-import {Cache} from './utils/Cache';
+import { ISPRequest } from './ISPRequest';
+import { Cache } from './utils/Cache';
 
 export var requestDigestCache: Cache = new Cache();
 
-export function create(credentials: IUserCredentials, environment?: IEnvironment): ISPRequest {
+export function create(credentials: spauth.IAuthOptions, environment?: any): ISPRequest {
 
-  let resolversFactory: AuthResolverFactory = new AuthResolverFactory();
+  /* backward compatibility with 1.1.5 */
+  if (environment) {
+    _.assign(credentials, environment);
+  }
+  /* backward compatibility */
 
   let coreRequest: any = (options: OptionsWithUrl): Promise<IncomingMessage> => {
     return new Promise<IncomingMessage>((resolve, reject) => {
@@ -31,18 +33,19 @@ export function create(credentials: IUserCredentials, environment?: IEnvironment
         'Content-Type': 'application/json;odata=verbose'
       });
 
-      _.defaults(options, { json: true });
+      _.defaults(options, {
+        json: true,
+        strictSSL: false
+      });
 
-      let authOptions: IAuthOptions = {
-        options: options,
-        credentials: credentials,
-        env: environment
-      };
+      spauth.getAuth(options.url, credentials)
+        .then(data => {
+          _.assign(options.headers, data.headers);
+          _.assign(options, data.options);
 
-      resolversFactory
-        .resolve(authOptions.options.url)
-        .applyAuthHeaders(authOptions)
-        .then(requestp)
+          return options;
+        })
+        .then(request)
         .then((response: IncomingMessage) => {
           resolve(response);
         })
@@ -82,7 +85,7 @@ export function create(credentials: IUserCredentials, environment?: IEnvironment
   spRequestFunc.requestDigest = (siteUrl: string) => {
     return new Promise<string>((resolve, reject) => {
       let url: string = siteUrl.replace(/\/$/, '');
-      let cacheKey: string = util.format('%s@%s', url, credentials.username);
+      let cacheKey: string = crypto.createHash('md5').update(util.format('%s@%s', url, JSON.stringify(credentials))).digest('hex');
       let cachedDigest: string = requestDigestCache.get<string>(cacheKey);
 
       if (cachedDigest) {

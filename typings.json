@@ -7,6 +7,7 @@
   "dependencies": {
     "bluebird": "registry:npm/bluebird#3.3.4+20160427051630",
     "lodash": "registry:npm/lodash#4.0.0+20160416211519",
+    "node-sp-auth": "npm:node-sp-auth",
     "request": "registry:npm/request#2.69.0+20160428223725"
   },
   "devDependencies": {

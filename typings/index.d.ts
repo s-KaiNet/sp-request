@@ -7,5 +7,6 @@
 /// <reference path="modules/chai/index.d.ts" />
 /// <reference path="modules/form-data/index.d.ts" />
 /// <reference path="modules/lodash/index.d.ts" />
+/// <reference path="modules/node-sp-auth/index.d.ts" />
 /// <reference path="modules/request/index.d.ts" />
 /// <reference path="modules/sinon/index.d.ts" />
