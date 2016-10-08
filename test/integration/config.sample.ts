@@ -2,7 +2,8 @@ import {
   IUserCredentials,
   IOnpremiseUserCredentials,
   IOnPremiseAddinCredentials,
-  IOnlineAddinCredentials
+  IOnlineAddinCredentials,
+  IAdfsUserCredentials
 } from 'node-sp-auth';
 
 export var onlineUrl: string = '[sharepoint online url]';
@@ -31,4 +32,11 @@ export var onpremAddinOnly: IOnPremiseAddinCredentials = {
 export var onlineAddinOnly: IOnlineAddinCredentials = {
   clientId: '[clientId]',
   clientSecret: '[clientSecret]'
+};
+
+export var adfsCredentials: IAdfsUserCredentials = {
+  username: '[username]',
+  password: '[password]',
+  relyingParty: '[relying party]',
+  adfsUrl: '[adfs url]'
 };
