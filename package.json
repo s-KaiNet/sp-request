@@ -56,6 +56,7 @@
     "yargs": "^4.6.0"
   },
   "dependencies": {
+    "@types/bluebird": "^3.0.35",
     "@types/node": "^6.0.45",
     "@types/request": "0.0.31",
     "@types/request-promise": "^3.0.32",
