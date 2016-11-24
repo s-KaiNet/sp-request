@@ -1,4 +1,4 @@
-# sp-request - simplified SharePoint HTTP client
+# sp-request - simplified SharePoint HTTP client [![analytics](http://www.google-analytics.com/collect?v=1&t=pageview&tid=UA-87971440-3&cid=a0ffe3bf-3b33-43ab-bb0e-2c245f11b013&dl=https%3A%2F%2Fgithub.com%2Fs-KaiNet%2Fsp-request)]()
 [![NPM](https://nodei.co/npm/sp-request.png?mini=true)](https://nodei.co/npm/sp-request/)
 
 [![Circle CI](https://circleci.com/gh/s-KaiNet/sp-request/tree/master.svg?style=shield&circle-token=c550cd1b34315e710c5e751dd4cffe5cb8e694fe)](https://circleci.com/gh/s-KaiNet/sp-request/tree/master)
