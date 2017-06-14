@@ -9,5 +9,7 @@
   },
   "editor.wrappingColumn": 5000,
   "files.autoSave": "afterDelay",
-  "files.autoSaveDelay": 1000
+  "files.autoSaveDelay": 1000,
+  "editor.minimap.renderCharacters": false,
+  "editor.minimap.maxColumn": 90
 }
