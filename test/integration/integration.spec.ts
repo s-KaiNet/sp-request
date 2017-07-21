@@ -38,6 +38,11 @@ let tests: any[] = [
     name: 'adfs user credentials',
     creds: config.adfsCredentials,
     url: config.onpremAdfsEnabledUrl
+  },
+  {
+    name: 'fba on-premise user credentials',
+    creds: config.onpremFbaCreds,
+    url: config.onpremFbaEnabledUrl
   }
 ];
 

@@ -7,9 +7,7 @@
     "**/*.js": { "when": "$(basename).ts"},
     "**/*.js.map": true
   },
-  "editor.wrappingColumn": 5000,
-  "files.autoSave": "afterDelay",
-  "files.autoSaveDelay": 1000,
+  "files.autoSave": "onFocusChange",
   "editor.minimap.renderCharacters": false,
   "editor.minimap.maxColumn": 90
 }
