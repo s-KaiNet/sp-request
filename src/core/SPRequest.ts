@@ -7,13 +7,24 @@ import * as _ from 'lodash';
 import * as util from 'util';
 import * as spauth from 'node-sp-auth';
 import * as crypto from 'crypto';
+import * as https from 'https';
 
 import { ISPRequest } from './ISPRequest';
 import { Cache } from './utils/Cache';
 
-export var requestDigestCache: Cache = new Cache();
+export let requestDigestCache: Cache = new Cache();
+
+const isUrlHttps: any = (url: string): boolean => {
+    return url.split('://')[0].toLowerCase() === 'https';
+};
 
 export function create(credentials: spauth.IAuthOptions, environment?: any): ISPRequest {
+
+  let agent: https.Agent = new https.Agent({
+    rejectUnauthorized: false,
+    keepAlive: true,
+    keepAliveMsecs: 10000
+  });
 
   /* backward compatibility with 1.1.5 */
   if (environment) {
@@ -35,7 +46,8 @@ export function create(credentials: spauth.IAuthOptions, environment?: any): ISP
 
       _.defaults(options, {
         json: true,
-        strictSSL: false
+        strictSSL: false,
+        agent: isUrlHttps(options.url) ? agent : undefined
       });
 
       spauth.getAuth(options.url, credentials)
