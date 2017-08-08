@@ -50,22 +50,6 @@ describe('sp-request: direct call tests - sprequest(...)', () => {
     mockery.disable();
   });
 
-  it('should assign workstation (1.x compitability)', (done) => {
-
-    let workstation: string = 'workstation';
-    let request: ISPRequest = sprequest.create(creds, {workstation: workstation});
-
-    request(spUrl)
-      .then((data) => {
-        expect(creds.workstation).is.equals(workstation);
-
-        done();
-      })
-      .catch((err) => {
-        done(err);
-      });
-  });
-
   it('should call request-promise', (done) => {
 
     let request: ISPRequest = sprequest.create(creds);
