@@ -1,9 +1,11 @@
-# sp-request - simplified SharePoint HTTP client [![analytics](http://www.google-analytics.com/collect?v=1&t=pageview&tid=UA-87971440-3&cid=a0ffe3bf-3b33-43ab-bb0e-2c245f11b013&dl=https%3A%2F%2Fgithub.com%2Fs-KaiNet%2Fsp-request)]()
+# sp-request - simplified SharePoint HTTP client
 [![NPM](https://nodei.co/npm/sp-request.png?mini=true)](https://nodei.co/npm/sp-request/)
 
 [![Circle CI](https://circleci.com/gh/s-KaiNet/sp-request/tree/master.svg?style=shield&circle-token=c550cd1b34315e710c5e751dd4cffe5cb8e694fe)](https://circleci.com/gh/s-KaiNet/sp-request/tree/master)
 [![Coverage Status](https://coveralls.io/repos/github/s-KaiNet/sp-request/badge.svg?branch=master)](https://coveralls.io/github/s-KaiNet/sp-request?branch=master)
 [![npm version](https://badge.fury.io/js/sp-request.svg)](https://badge.fury.io/js/sp-request)
+
+### Need help on SharePoint with Node.JS? Join our gitter chat and ask question! [![Gitter chat](https://badges.gitter.im/gitterHQ/gitter.png)](https://gitter.im/sharepoint-node/Lobby)
 
  `sp-request` based on [request-promise](https://github.com/request/request-promise)  (promise-aware implementation of [request](https://github.com/request/request)) and [node-sp-auth](https://github.com/s-KaiNet/node-sp-auth) modules. `node-sp-auth` implements different authentication options for unattended SharePoint authentication from nodejs. You can send REST queries to SharePoint (works with both on-prem and online) using well-known `request` syntax with the same params that `request` supports, and `sp-request` (with help of `node-sp-auth`) takes care about authenticating you inside SharePoint. Responses implemented using modern promise-style approach.
 
@@ -20,22 +22,23 @@ npm install sp-request --save-dev
 ```
 #### Create sprequest function:
 ```javascript
-var spr = require('sp-request').create(credentialOptions);
+import * as sprequest from 'sp-request';
+let spr = sprequest.create(credentialOptions);
 ```
-###### Get list by title:
+##### Get list by title:
 ```javascript
 spr.get('http://sp2013dev/sites/dev/_api/web/lists/GetByTitle(\'TestList\')')
-  .then(function (response) {
+  .then(response => {
     console.log('List Id: ' + response.body.d.Id);
   })
-  .catch(function(err){
+  .catch(err =>{
     console.log('Ohhh, something went wrong...');
   });
 ```
-###### Update list title:
+##### Update list title:
 ```javascript
 spr.requestDigest('http://sp2013dev/sites/dev')
-  .then(function (digest) {
+  .then(digest => {
     return spr.post('http://sp2013dev/sites/dev/_api/web/lists/GetByTitle(\'TestList\')', {
       body: {
         '__metadata': { 'type': 'SP.List' },
@@ -48,11 +51,11 @@ spr.requestDigest('http://sp2013dev/sites/dev')
       }
     });
   })
-  .then(function (response) {
+  .then(response => {
     if (response.statusCode === 204) {
       console.log('List title updated!');
     }
-  }, function (err) {
+  }, err => {
     if (err.statusCode === 404) {
       console.log('List not found!');
     } else {
@@ -64,10 +67,10 @@ spr.requestDigest('http://sp2013dev/sites/dev')
 
 ## API:
 ### [main sp-request export].create(credentialOptions):
- - **_credentialOptions_:** required, object containing credentials.
+ - **_credentialOptions_:** optional, object containing credentials.
   Since version 2.x `sp-request` relies on `node-sp-auth` module for authentication. You can find description for `credentialOptions` under [node-sp-auth](https://github.com/s-KaiNet/node-sp-auth#params).
 
-Call to `require('sp-request').create(credentialOption)` returns sprequest function with predefined authentication. You can use this function later to send REST queries (like in samples above) without specifying credentials again.
+Call to `sprequest.create(credentialOption)` returns sprequest function with predefined authentication. You can use this function later to send REST queries (like in samples above) without specifying credentials again.
 ### sprequest(options):
  - **_options_**: required, settings object for `request` module. For all available values refer to the original [request docs](https://github.com/request/request#requestoptions-callback)
 

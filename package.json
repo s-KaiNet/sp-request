@@ -1,6 +1,6 @@
 {
   "name": "sp-request",
-  "version": "2.0.4",
+  "version": "2.1.0",
   "description": "Simplified SharePoint HTTP client",
   "main": "./lib/src/index.js",
   "typings": "./lib/src/index",
@@ -56,18 +56,17 @@
     "yargs": "^4.6.0"
   },
   "dependencies": {
-    "@types/bluebird": "^3.0.35",
-    "@types/node": "^6.0.45",
-    "@types/request": "0.0.31",
-    "@types/request-promise": "^3.0.32",
+    "@types/bluebird": "^3.5.8",
     "@types/core-js": "^0.9.34",
     "@types/lodash": "^4.14.37",
-    "agentkeepalive": "^2.1.1",
-    "bluebird": "^3.3.5",
-    "httpntlm": "^1.6.1",
+    "@types/node": "^6.0.45",
+    "@types/request": "0.0.31",
+    "@types/request-promise": "^4.1.36",
+    "bluebird": "^3.5.0",
+    "httpntlm": "^1.7.5",
     "lodash": "^4.12.0",
-    "node-sp-auth": "^1.0.1",
-    "request": "^2.72.0",
-    "request-promise": "^3.0.0"
+    "node-sp-auth": "^2.1.1",
+    "request": "^2.81.0",
+    "request-promise": "^4.2.1"
   }
 }

@@ -18,19 +18,13 @@ const isUrlHttps: any = (url: string): boolean => {
     return url.split('://')[0].toLowerCase() === 'https';
 };
 
-export function create(credentials: spauth.IAuthOptions, environment?: any): ISPRequest {
+export function create(credentials?: spauth.IAuthOptions): ISPRequest {
 
   let agent: https.Agent = new https.Agent({
     rejectUnauthorized: false,
     keepAlive: true,
     keepAliveMsecs: 10000
   });
-
-  /* backward compatibility with 1.1.5 */
-  if (environment) {
-    _.assign(credentials, environment);
-  }
-  /* backward compatibility */
 
   let coreRequest: any = (options: OptionsWithUrl): Promise<IncomingMessage> => {
     return new Promise<IncomingMessage>((resolve, reject) => {
