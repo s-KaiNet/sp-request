@@ -15,7 +15,7 @@ import { Cache } from './utils/Cache';
 export let requestDigestCache: Cache = new Cache();
 
 const isUrlHttps: any = (url: string): boolean => {
-    return url.split('://')[0].toLowerCase() === 'https';
+  return url.split('://')[0].toLowerCase() === 'https';
 };
 
 export function create(credentials?: spauth.IAuthOptions): ISPRequest {
@@ -37,6 +37,12 @@ export function create(credentials?: spauth.IAuthOptions): ISPRequest {
         'Accept': 'application/json;odata=verbose',
         'Content-Type': 'application/json;odata=verbose'
       });
+
+      let additionalHeadersStr: string = process.env['_sp_request_headers'];
+      if (additionalHeadersStr) {
+        let additionalHeaders: any = JSON.parse(additionalHeadersStr);
+        _.assign(options.headers, additionalHeaders);
+      }
 
       _.defaults(options, {
         json: true,
