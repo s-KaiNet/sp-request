@@ -110,6 +110,14 @@ The same as `sprequest(options)` but `options.url` will be equal to the first pa
 
 The same as `sprequest(options)` but `options.url` will be equal to the first param and `options.method: 'POST'`.
 
+## Supplying additional headers via environment variables
+Sometimes you need to push additional headers for `sp-request` without direct access to `sp-requests` object. For example from third party module, which uses `sp-request` internally. For that purpose you can use environmental variables. Provide it in a below way:
+```javascript
+process.env['_sp_request_headers'] = JSON.stringify({
+	'X-FORMS_BASED_AUTH_ACCEPTED': 'f'
+});
+```
+
 ## Development:
 I recommend using VS Code for development. Repository already contains some settings for VS Code editor.
 
