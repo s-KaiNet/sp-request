@@ -14,7 +14,7 @@
  `sp-request` based on [request-promise](https://github.com/request/request-promise)  (promise-aware implementation of [request](https://github.com/request/request)) and [node-sp-auth](https://github.com/s-KaiNet/node-sp-auth) modules. `node-sp-auth` implements different authentication options for unattended SharePoint authentication from nodejs. You can send REST queries to SharePoint (works with both on-prem and online) using well-known `request` syntax with the same params that `request` supports, and `sp-request` (with help of `node-sp-auth`) takes care about authenticating you inside SharePoint. Responses implemented using modern promise-style approach.
 
  Versions supported:
- * SharePoint 2013, 2016
+ * SharePoint 2013 and onwards
  * SharePoint Online
 
 ---
