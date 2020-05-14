@@ -1,7 +1,5 @@
 import {expect} from 'chai';
-import * as Promise from 'bluebird';
 
-import {ISPRequest} from './../../src/core/ISPRequest';
 import * as sprequest from './../../src/core/SPRequest';
 
 let config: any = require('./config');
@@ -58,7 +56,7 @@ let tests: any[] = [
 
 tests.forEach(test => {
   describe(`sp-request: integration - ${test.name}`, () => {
-    let request: ISPRequest;
+    let request: sprequest.ISPRequest;
 
     before('Creating test list', function (done: any): void {
       this.timeout(30 * 1000);
@@ -68,6 +66,7 @@ tests.forEach(test => {
       request.requestDigest(test.url)
         .then((digest) => {
           return request.post(`${test.url}/_api/web/lists`, {
+            responseType: 'json',
             body: {
               '__metadata': { 'type': 'SP.List' },
               'AllowContentTypes': true,
@@ -81,7 +80,8 @@ tests.forEach(test => {
             }
           });
         })
-        .then(() => {
+        .then((data) => {
+          console.log(data.body);
           done();
         }, err => {
           if (err.message.indexOf('-2130575342') === -1) {
@@ -101,6 +101,7 @@ tests.forEach(test => {
       Promise.all([request.requestDigest(test.url), request.get(`${test.url}/_api/web/lists/GetByTitle('${listTitle}')`)])
         .then((data) => {
           let digest: string = data[0];
+          let dd = data[1];
           let listId: string = data[1].body.d.Id;
 
           return request.post(`${test.url}/_api/web/lists('${listId}')`, {

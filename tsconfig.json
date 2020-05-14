@@ -6,25 +6,27 @@
     "sourceMap": true,
     "declaration": true,
     "noImplicitAny": false,
+    "allowSyntheticDefaultImports": true,
     "pretty": true,
     "removeComments": true,
+    "skipLibCheck": true,
     "lib": [
       "es2015"
     ],
     "types": [
-      "bluebird",
       "node",
       "chai",
       "mocha",
       "sinon",
       "mockery",
-      "request",
-      "request-promise",
-      "lodash",
       "core-js"
     ]
   },
   "exclude": [
     "node_modules"
+  ],
+  "include": [
+    "src/**/*.ts",
+    "test/**/*.ts"
   ]
 }
