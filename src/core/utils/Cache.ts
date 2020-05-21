@@ -5,7 +5,7 @@ export class Cache {
 
   private _cache: { [key: string]: CacheItem } = {};
 
-  public set(key: string, data: any, expiration?: number | Date): void {
+  public set<T>(key: string, data: T, expiration?: number | Date): void {
     let cacheItem: CacheItem = undefined;
     key = this.getHashKey(key);
 

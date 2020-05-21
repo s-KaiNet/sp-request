@@ -446,7 +446,7 @@ describe('sp-request: get request digest', () => {
       body: response
     });
 
-    const postStup: SinonStub = sinon.stub(request, 'post').returns(requestDeferred);
+    const postStup: SinonStub = sinon.stub(request, 'post').returns(requestDeferred as any);
     request.requestDigest(spUrl)
       .then((digestValue) => {
         const call: SinonSpyCall = postStup.getCall(0);
@@ -467,7 +467,7 @@ describe('sp-request: get request digest', () => {
     const error: Error = new Error('unexpected error');
     const requestDeferred = Promise.reject(error);
 
-    sinon.stub(request, 'post').returns(requestDeferred);
+    sinon.stub(request, 'post').returns(requestDeferred as any);
     request.requestDigest(spUrl)
       .then(() => {
         //
@@ -494,7 +494,7 @@ describe('sp-request: get request digest', () => {
       body: response
     });
 
-    const postStup: SinonStub = sinon.stub(request, 'post').returns(requestDeferred);
+    const postStup: SinonStub = sinon.stub(request, 'post').returns(requestDeferred as any);
 
     request.requestDigest(spUrl)
       .then(() => {
