@@ -10,8 +10,48 @@ const listTitle = 'SPRequestTesting';
 
 const tests: any[] = [
   {
+    name: 'on-premise user password',
+    creds: config.onpremCreds,
+    url: config.onpremNtlmEnabledUrl
+  },
+  {
+    name: 'on-premise addin only',
+    creds: config.onpremAddinOnly,
+    url: config.onpremAdfsEnabledUrl
+  },
+  {
     name: 'online user password',
     creds: config.onlineCreds,
+    url: config.onlineUrl
+  },
+  {
+    name: 'adfs online user password',
+    creds: config.onlineWithAdfsCreds,
+    url: config.onlineUrl
+  },
+  {
+    name: 'online addin only',
+    creds: config.onlineAddinOnly,
+    url: config.onlineUrl
+  },
+  {
+    name: 'adfs user credentials',
+    creds: config.adfsCredentials,
+    url: config.onpremAdfsEnabledUrl
+  },
+  {
+    name: 'fba on-premise user credentials',
+    creds: config.onpremFbaCreds,
+    url: config.onpremFbaEnabledUrl
+  },
+  {
+    name: 'on-premise file credentials',
+    creds: null,
+    url: config.onpremAdfsEnabledUrl
+  },
+  {
+    name: 'online file credentials',
+    creds: null,
     url: config.onlineUrl
   }
 ];

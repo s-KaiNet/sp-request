@@ -1,6 +1,6 @@
-import { HTTPAlias } from "got/dist/source/create";
-import { CancelableRequest, Response, Options } from "got/dist/source";
-import { ProxyStream } from "got/dist/source/as-stream";
+import { HTTPAlias } from 'got/dist/source/create';
+import { CancelableRequest, Response, Options } from 'got/dist/source';
+import { ProxyStream } from 'got/dist/source/as-stream';
 
 type Except<ObjectType, KeysType extends keyof ObjectType> = Pick<ObjectType, Exclude<keyof ObjectType, KeysType>>;
 type Merge<FirstType, SecondType> = Except<FirstType, Extract<keyof FirstType, keyof SecondType>> & SecondType;
