@@ -17,6 +17,23 @@
       },*/
       "cwd": "${workspaceRoot}",
       "protocol": "inspector"
+    },
+    {
+      "name": "Run mocha unit test",
+      "type": "node",
+      "request": "launch",
+      "program": "${workspaceRoot}/node_modules/mocha/bin/_mocha",
+      "stopOnEntry": false,
+      "args": [
+        "-r",
+        "ts-node/register",
+        "test/unit/tests.ts"
+      ],/*
+      "env": {
+        "http_proxy": "http://127.0.0.1:8888"
+      },*/
+      "cwd": "${workspaceRoot}",
+      "protocol": "inspector"
     }
   ]
 }

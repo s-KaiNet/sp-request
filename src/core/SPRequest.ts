@@ -60,6 +60,15 @@ export function create(credentials?: spauth.IAuthOptions): ISPRequest {
         url,
         ...options
       };
+    } else {
+      options = {
+        ...url,
+        ...options
+      };
+    }
+
+    if (!options.method) {
+      options.method = 'get';
     }
 
     return coreRequest(options);

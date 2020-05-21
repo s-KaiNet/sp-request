@@ -14,6 +14,7 @@
     "dev": "tsc -p . --watch",
     "lint": "eslint -c .eslintrc.json --ext .ts src test",
     "test:dev": "mocha ./test/integration/tests.ts --watch --watch-extensions ts",
+    "test:unit": "mocha ./test/unit/tests.ts --watch --watch-extensions ts",
     "coverage": "nyc mocha ./test/integration/tests.ts"
   },
   "nyc": {

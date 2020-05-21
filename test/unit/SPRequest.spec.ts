@@ -33,7 +33,7 @@ describe('sp-request: direct call tests - sprequest(...)', () => {
 
     requestPromiseStub = sinon.stub().returns(requestDeferred);
 
-    mockery.registerMock('request-promise', requestPromiseStub);
+    mockery.registerMock('got', { default: requestPromiseStub });
     mockery.registerMock('node-sp-auth', {
       getAuth: () => {
         return Promise.resolve({});
@@ -47,7 +47,7 @@ describe('sp-request: direct call tests - sprequest(...)', () => {
     mockery.disable();
   });
 
-  it('should call request-promise', (done) => {
+  it('should call got', (done) => {
 
     const request: ISPRequest = sprequest.create(creds);
 
@@ -62,7 +62,7 @@ describe('sp-request: direct call tests - sprequest(...)', () => {
       });
   });
 
-  it('should call request-promise with "GET" method when provided directly', (done) => {
+  it('should call got with "GET" method when provided directly', (done) => {
 
     const request: ISPRequest = sprequest.create(creds);
 
@@ -84,7 +84,7 @@ describe('sp-request: direct call tests - sprequest(...)', () => {
       });
   });
 
-  it('should call request-promise with "POST" method when provided directly', (done) => {
+  it('should call got with "POST" method when provided directly', (done) => {
 
     const request: ISPRequest = sprequest.create(creds);
 
@@ -122,7 +122,7 @@ describe('sp-request: direct call tests - sprequest(...)', () => {
       });
   });
 
-  it('should call request-promise with method "GET" when called with string param', (done) => {
+  it('should call got with method "GET" when called with string param', (done) => {
 
     const request: ISPRequest = sprequest.create(creds);
 
@@ -141,7 +141,7 @@ describe('sp-request: direct call tests - sprequest(...)', () => {
       });
   });
 
-  it('should call request-promise with method "GET" when called with options object', (done) => {
+  it('should call got with method "GET" when called with options object', (done) => {
 
     const request: ISPRequest = sprequest.create(creds);
 
@@ -162,7 +162,7 @@ describe('sp-request: direct call tests - sprequest(...)', () => {
       });
   });
 
-  it('should call request-promise with method "GET" when called with string as first param and object as second', (done) => {
+  it('should call got with method "GET" when called with string as first param and object as second', (done) => {
 
     const request: ISPRequest = sprequest.create(creds);
 
@@ -199,7 +199,7 @@ describe('sp-request: helper call tests - sprequest.get(...)', () => {
 
     requestPromiseStub = sinon.stub().returns(requestDeferred);
 
-    mockery.registerMock('request-promise', requestPromiseStub);
+    mockery.registerMock('got', { default: requestPromiseStub });
 
     sprequest = require('./../../src/core/SPRequest');
 
@@ -214,7 +214,7 @@ describe('sp-request: helper call tests - sprequest.get(...)', () => {
     mockery.disable();
   });
 
-  it('should call request-promise with method "GET" when called with string param', (done) => {
+  it('should call got with method "GET" when called with string param', (done) => {
 
     const request: ISPRequest = sprequest.create(creds);
 
@@ -233,7 +233,7 @@ describe('sp-request: helper call tests - sprequest.get(...)', () => {
       });
   });
 
-  it('should call request-promise with method "GET" when called with options object', (done) => {
+  it('should call got with method "GET" when called with options object', (done) => {
 
     const request: ISPRequest = sprequest.create(creds);
 
@@ -254,7 +254,7 @@ describe('sp-request: helper call tests - sprequest.get(...)', () => {
       });
   });
 
-  it('should call request-promise with method "GET" when called with string as first param and object as second', (done) => {
+  it('should call got with method "GET" when called with string as first param and object as second', (done) => {
 
     const request: ISPRequest = sprequest.create(creds);
 
@@ -292,7 +292,7 @@ describe('sp-request: helper call tests - sprequest.post(...)', () => {
 
     requestPromiseStub = sinon.stub().returns(requestDeferred);
 
-    mockery.registerMock('request-promise', requestPromiseStub);
+    mockery.registerMock('got', { default: requestPromiseStub });
 
     sprequest = require('./../../src/core/SPRequest');
 
@@ -307,7 +307,7 @@ describe('sp-request: helper call tests - sprequest.post(...)', () => {
     mockery.disable();
   });
 
-  it('should call request-promise with method "GET" when called with string param', (done) => {
+  it('should call got with method "POST" when called with string param', (done) => {
 
     const request: ISPRequest = sprequest.create(creds);
 
@@ -326,7 +326,7 @@ describe('sp-request: helper call tests - sprequest.post(...)', () => {
       });
   });
 
-  it('should call request-promise with method "GET" when called with options object', (done) => {
+  it('should call got with method "POST" when called with options object', (done) => {
 
     const request: ISPRequest = sprequest.create(creds);
 
@@ -347,7 +347,7 @@ describe('sp-request: helper call tests - sprequest.post(...)', () => {
       });
   });
 
-  it('should call request-promise with method "GET" when called with string as first param and object as second', (done) => {
+  it('should call got with method "GET" when called with string as first param and object as second', (done) => {
 
     const request: ISPRequest = sprequest.create(creds);
 
@@ -388,7 +388,7 @@ describe('sp-request: throws an error', () => {
 
     requestPromiseStub = sinon.stub().returns(requestDeferred);
 
-    mockery.registerMock('request-promise', requestPromiseStub);
+    mockery.registerMock('got', { default: requestPromiseStub });
 
     sprequest = require('./../../src/core/SPRequest');
 
