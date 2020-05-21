@@ -1,22 +1,20 @@
-import {expect} from 'chai';
+import { expect } from 'chai';
 import * as sinon from 'sinon';
-import {SinonStub, SinonSpyCall} from 'sinon';
+import { SinonStub, SinonSpyCall } from 'sinon';
 import * as mockery from 'mockery';
-import {OptionsWithUrl} from 'request';
 import * as spauth from 'node-sp-auth';
 
-import {ISPRequest} from './../../src/core/ISPRequest';
-import {defer, IDeferred} from './Defer';
+import { ISPRequest, ISPRequestOptions } from '../../src/core/types';
 
-let spUrl: string = 'https://your_sp_api_endpoint';
+const spUrl = 'https://your_sp_api_endpoint';
 
-let creds: spauth.IOnpremiseUserCredentials = {
+const creds: spauth.IOnpremiseUserCredentials = {
   username: 'user',
   password: 'pass',
   domain: 'sp'
 };
 
-let defaultAcceptHeader: string = 'application/json;odata=verbose';
+const defaultAcceptHeader = 'application/json;odata=verbose';
 
 describe('sp-request: direct call tests - sprequest(...)', () => {
 
@@ -31,14 +29,13 @@ describe('sp-request: direct call tests - sprequest(...)', () => {
       useCleanCache: true
     });
 
-    let requestDeferred: IDeferred<any> = defer();
-    requestDeferred.resolve({ statusCode: 200 });
+    const requestDeferred = Promise.resolve({ statusCode: 200 });
 
-    requestPromiseStub = sinon.stub().returns(requestDeferred.promise);
+    requestPromiseStub = sinon.stub().returns(requestDeferred);
 
     mockery.registerMock('request-promise', requestPromiseStub);
     mockery.registerMock('node-sp-auth', {
-      getAuth: (data: any) => {
+      getAuth: () => {
         return Promise.resolve({});
       }
     });
@@ -52,10 +49,10 @@ describe('sp-request: direct call tests - sprequest(...)', () => {
 
   it('should call request-promise', (done) => {
 
-    let request: ISPRequest = sprequest.create(creds);
+    const request: ISPRequest = sprequest.create(creds);
 
     request(spUrl)
-      .then((data) => {
+      .then(() => {
         expect(requestPromiseStub.called).is.true;
 
         done();
@@ -67,15 +64,15 @@ describe('sp-request: direct call tests - sprequest(...)', () => {
 
   it('should call request-promise with "GET" method when provided directly', (done) => {
 
-    let request: ISPRequest = sprequest.create(creds);
+    const request: ISPRequest = sprequest.create(creds);
 
     request(spUrl, {
       method: 'GET'
     })
-      .then((data) => {
+      .then(() => {
 
-        let call: SinonSpyCall = requestPromiseStub.getCall(0);
-        let options: OptionsWithUrl = call.args[0];
+        const call: SinonSpyCall = requestPromiseStub.getCall(0);
+        const options: ISPRequestOptions = call.args[0];
 
         expect(options.method.toUpperCase()).to.equal('GET');
         expect(options.url).to.equal(spUrl);
@@ -89,12 +86,12 @@ describe('sp-request: direct call tests - sprequest(...)', () => {
 
   it('should call request-promise with "POST" method when provided directly', (done) => {
 
-    let request: ISPRequest = sprequest.create(creds);
+    const request: ISPRequest = sprequest.create(creds);
 
     request(spUrl, {
       method: 'POST'
     })
-      .then((data) => {
+      .then(() => {
 
         expect(requestPromiseStub.called).is.true;
 
@@ -108,13 +105,13 @@ describe('sp-request: direct call tests - sprequest(...)', () => {
 
   it('should set default accept header', (done) => {
 
-    let request: ISPRequest = sprequest.create(creds);
+    const request: ISPRequest = sprequest.create(creds);
 
     request(spUrl)
-      .then((data) => {
+      .then(() => {
 
-        let call: SinonSpyCall = requestPromiseStub.getCall(0);
-        let options: OptionsWithUrl = call.args[0];
+        const call: SinonSpyCall = requestPromiseStub.getCall(0);
+        const options: ISPRequestOptions = call.args[0];
 
         expect(options.headers['Accept']).to.equal(defaultAcceptHeader);
 
@@ -127,12 +124,12 @@ describe('sp-request: direct call tests - sprequest(...)', () => {
 
   it('should call request-promise with method "GET" when called with string param', (done) => {
 
-    let request: ISPRequest = sprequest.create(creds);
+    const request: ISPRequest = sprequest.create(creds);
 
     request(spUrl)
-      .then((data) => {
-        let call: SinonSpyCall = requestPromiseStub.getCall(0);
-        let options: OptionsWithUrl = call.args[0];
+      .then(() => {
+        const call: SinonSpyCall = requestPromiseStub.getCall(0);
+        const options: ISPRequestOptions = call.args[0];
 
         expect(options.method.toUpperCase()).to.equal('GET');
         expect(options.url).to.equal(spUrl);
@@ -146,14 +143,14 @@ describe('sp-request: direct call tests - sprequest(...)', () => {
 
   it('should call request-promise with method "GET" when called with options object', (done) => {
 
-    let request: ISPRequest = sprequest.create(creds);
+    const request: ISPRequest = sprequest.create(creds);
 
     request({
       url: spUrl
     })
-      .then((data) => {
-        let call: SinonSpyCall = requestPromiseStub.getCall(0);
-        let options: OptionsWithUrl = call.args[0];
+      .then(() => {
+        const call: SinonSpyCall = requestPromiseStub.getCall(0);
+        const options: ISPRequestOptions = call.args[0];
 
         expect(options.method.toUpperCase()).to.equal('GET');
         expect(options.url).to.equal(spUrl);
@@ -167,12 +164,12 @@ describe('sp-request: direct call tests - sprequest(...)', () => {
 
   it('should call request-promise with method "GET" when called with string as first param and object as second', (done) => {
 
-    let request: ISPRequest = sprequest.create(creds);
+    const request: ISPRequest = sprequest.create(creds);
 
     request(spUrl, {})
-      .then((data) => {
-        let call: SinonSpyCall = requestPromiseStub.getCall(0);
-        let options: OptionsWithUrl = call.args[0];
+      .then(() => {
+        const call: SinonSpyCall = requestPromiseStub.getCall(0);
+        const options: ISPRequestOptions = call.args[0];
 
         expect(options.method.toUpperCase()).to.equal('GET');
         expect(options.url).to.equal(spUrl);
@@ -198,17 +195,16 @@ describe('sp-request: helper call tests - sprequest.get(...)', () => {
       useCleanCache: true
     });
 
-    let requestDeferred: IDeferred<any> = defer();
-    requestDeferred.resolve({ statusCode: 200 });
+    const requestDeferred = Promise.resolve({ statusCode: 200 });
 
-    requestPromiseStub = sinon.stub().returns(requestDeferred.promise);
+    requestPromiseStub = sinon.stub().returns(requestDeferred);
 
     mockery.registerMock('request-promise', requestPromiseStub);
 
     sprequest = require('./../../src/core/SPRequest');
 
     mockery.registerMock('node-sp-auth', {
-      getAuth: (data: any) => {
+      getAuth: () => {
         return Promise.resolve({});
       }
     });
@@ -220,12 +216,12 @@ describe('sp-request: helper call tests - sprequest.get(...)', () => {
 
   it('should call request-promise with method "GET" when called with string param', (done) => {
 
-    let request: ISPRequest = sprequest.create(creds);
+    const request: ISPRequest = sprequest.create(creds);
 
     request.get(spUrl)
-      .then((data) => {
-        let call: SinonSpyCall = requestPromiseStub.getCall(0);
-        let options: OptionsWithUrl = call.args[0];
+      .then(() => {
+        const call: SinonSpyCall = requestPromiseStub.getCall(0);
+        const options: ISPRequestOptions = call.args[0];
 
         expect(options.method.toUpperCase()).to.equal('GET');
         expect(options.url).to.equal(spUrl);
@@ -239,14 +235,14 @@ describe('sp-request: helper call tests - sprequest.get(...)', () => {
 
   it('should call request-promise with method "GET" when called with options object', (done) => {
 
-    let request: ISPRequest = sprequest.create(creds);
+    const request: ISPRequest = sprequest.create(creds);
 
     request.get({
       url: spUrl
     })
-      .then((data) => {
-        let call: SinonSpyCall = requestPromiseStub.getCall(0);
-        let options: OptionsWithUrl = call.args[0];
+      .then(() => {
+        const call: SinonSpyCall = requestPromiseStub.getCall(0);
+        const options: ISPRequestOptions = call.args[0];
 
         expect(options.method.toUpperCase()).to.equal('GET');
         expect(options.url).to.equal(spUrl);
@@ -260,12 +256,12 @@ describe('sp-request: helper call tests - sprequest.get(...)', () => {
 
   it('should call request-promise with method "GET" when called with string as first param and object as second', (done) => {
 
-    let request: ISPRequest = sprequest.create(creds);
+    const request: ISPRequest = sprequest.create(creds);
 
     request.get(spUrl, {})
-      .then((data) => {
-        let call: SinonSpyCall = requestPromiseStub.getCall(0);
-        let options: OptionsWithUrl = call.args[0];
+      .then(() => {
+        const call: SinonSpyCall = requestPromiseStub.getCall(0);
+        const options: ISPRequestOptions = call.args[0];
 
         expect(options.method.toUpperCase()).to.equal('GET');
         expect(options.url).to.equal(spUrl);
@@ -292,17 +288,16 @@ describe('sp-request: helper call tests - sprequest.post(...)', () => {
       useCleanCache: true
     });
 
-    let requestDeferred: IDeferred<any> = defer();
-    requestDeferred.resolve({ statusCode: 200 });
+    const requestDeferred = Promise.resolve({ statusCode: 200 });
 
-    requestPromiseStub = sinon.stub().returns(requestDeferred.promise);
+    requestPromiseStub = sinon.stub().returns(requestDeferred);
 
     mockery.registerMock('request-promise', requestPromiseStub);
 
     sprequest = require('./../../src/core/SPRequest');
 
     mockery.registerMock('node-sp-auth', {
-      getAuth: (data: any) => {
+      getAuth: () => {
         return Promise.resolve({});
       }
     });
@@ -314,12 +309,12 @@ describe('sp-request: helper call tests - sprequest.post(...)', () => {
 
   it('should call request-promise with method "GET" when called with string param', (done) => {
 
-    let request: ISPRequest = sprequest.create(creds);
+    const request: ISPRequest = sprequest.create(creds);
 
     request.post(spUrl)
-      .then((data) => {
-        let call: SinonSpyCall = requestPromiseStub.getCall(0);
-        let options: OptionsWithUrl = call.args[0];
+      .then(() => {
+        const call: SinonSpyCall = requestPromiseStub.getCall(0);
+        const options: ISPRequestOptions = call.args[0];
 
         expect(options.method.toUpperCase()).to.equal('POST');
         expect(options.url).to.equal(spUrl);
@@ -333,14 +328,14 @@ describe('sp-request: helper call tests - sprequest.post(...)', () => {
 
   it('should call request-promise with method "GET" when called with options object', (done) => {
 
-    let request: ISPRequest = sprequest.create(creds);
+    const request: ISPRequest = sprequest.create(creds);
 
     request.post({
       url: spUrl
     })
-      .then((data) => {
-        let call: SinonSpyCall = requestPromiseStub.getCall(0);
-        let options: OptionsWithUrl = call.args[0];
+      .then(() => {
+        const call: SinonSpyCall = requestPromiseStub.getCall(0);
+        const options: ISPRequestOptions = call.args[0];
 
         expect(options.method.toUpperCase()).to.equal('POST');
         expect(options.url).to.equal(spUrl);
@@ -354,12 +349,12 @@ describe('sp-request: helper call tests - sprequest.post(...)', () => {
 
   it('should call request-promise with method "GET" when called with string as first param and object as second', (done) => {
 
-    let request: ISPRequest = sprequest.create(creds);
+    const request: ISPRequest = sprequest.create(creds);
 
     request.post(spUrl, {})
-      .then((data) => {
-        let call: SinonSpyCall = requestPromiseStub.getCall(0);
-        let options: OptionsWithUrl = call.args[0];
+      .then(() => {
+        const call: SinonSpyCall = requestPromiseStub.getCall(0);
+        const options: ISPRequestOptions = call.args[0];
 
         expect(options.method.toUpperCase()).to.equal('POST');
         expect(options.url).to.equal(spUrl);
@@ -378,7 +373,7 @@ describe('sp-request: throws an error', () => {
   let requestPromiseStub: SinonStub;
   let sprequest: any;
 
-  let error: Error = new Error('Uknown error occurred');
+  const error: Error = new Error('Uknown error occurred');
 
 
   beforeEach(() => {
@@ -389,17 +384,16 @@ describe('sp-request: throws an error', () => {
       useCleanCache: true
     });
 
-    let requestDeferred: IDeferred<any> = defer();
-    requestDeferred.reject(error);
+    const requestDeferred = Promise.reject(error);
 
-    requestPromiseStub = sinon.stub().returns(requestDeferred.promise);
+    requestPromiseStub = sinon.stub().returns(requestDeferred);
 
     mockery.registerMock('request-promise', requestPromiseStub);
 
     sprequest = require('./../../src/core/SPRequest');
 
     mockery.registerMock('node-sp-auth', {
-      getAuth: (data: any) => {
+      getAuth: () => {
         return Promise.resolve({});
       }
     });
@@ -411,10 +405,10 @@ describe('sp-request: throws an error', () => {
 
   it('should throw an error', (done) => {
 
-    let request: ISPRequest = sprequest.create(creds);
+    const request: ISPRequest = sprequest.create(creds);
 
     request.get(spUrl, {})
-      .then((data) => {
+      .then(() => {
         //
       }, (err) => {
         expect(err).to.equal(error);
@@ -436,12 +430,10 @@ describe('sp-request: get request digest', () => {
 
 
   it('should retrun request digest', (done) => {
-    let requestDeferred: IDeferred<any> = defer();
-
-    let request: ISPRequest = sprequest.create(creds);
-    let digest: string = 'digest value';
-    let digestUrl: string = `${spUrl}/_api/contextinfo`;
-    let response: any = {
+    const request: ISPRequest = sprequest.create(creds);
+    const digest = 'digest value';
+    const digestUrl = `${spUrl}/_api/contextinfo`;
+    const response: any = {
       d: {
         GetContextWebInformation: {
           FormDigestValue: digest,
@@ -450,15 +442,15 @@ describe('sp-request: get request digest', () => {
       }
     };
 
-    requestDeferred.resolve({
+    const requestDeferred = Promise.resolve({
       body: response
     });
 
-    let postStup: SinonStub = sinon.stub(request, 'post').returns(requestDeferred.promise);
+    const postStup: SinonStub = sinon.stub(request, 'post').returns(requestDeferred);
     request.requestDigest(spUrl)
       .then((digestValue) => {
-        let call: SinonSpyCall = postStup.getCall(0);
-        let url: string = call.args[0];
+        const call: SinonSpyCall = postStup.getCall(0);
+        const url: string = call.args[0];
 
         expect(url).to.equal(digestUrl);
         expect(postStup.called).is.true;
@@ -471,14 +463,13 @@ describe('sp-request: get request digest', () => {
   });
 
   it('should throw an error', (done) => {
-    let request: ISPRequest = sprequest.create(creds);
-    let requestDeferred: IDeferred<any> = defer();
-    let error: Error = new Error('unexpected error');
-    requestDeferred.reject(error);
+    const request: ISPRequest = sprequest.create(creds);
+    const error: Error = new Error('unexpected error');
+    const requestDeferred = Promise.reject(error);
 
-    sinon.stub(request, 'post').returns(requestDeferred.promise);
+    sinon.stub(request, 'post').returns(requestDeferred);
     request.requestDigest(spUrl)
-      .then((digestValue) => {
+      .then(() => {
         //
       })
       .catch((err) => {
@@ -488,11 +479,9 @@ describe('sp-request: get request digest', () => {
   });
 
   it('should retrun request digest from cache on subsequence calls', (done) => {
-    let requestDeferred: IDeferred<any> = defer();
-
-    let request: ISPRequest = sprequest.create(creds);
-    let digest: string = 'digest value';
-    let response: any = {
+    const request: ISPRequest = sprequest.create(creds);
+    const digest = 'digest value';
+    const response: any = {
       d: {
         GetContextWebInformation: {
           FormDigestValue: digest,
@@ -501,14 +490,14 @@ describe('sp-request: get request digest', () => {
       }
     };
 
-    requestDeferred.resolve({
+    const requestDeferred = Promise.resolve({
       body: response
     });
 
-    let postStup: SinonStub = sinon.stub(request, 'post').returns(requestDeferred.promise);
+    const postStup: SinonStub = sinon.stub(request, 'post').returns(requestDeferred);
 
     request.requestDigest(spUrl)
-      .then((digest1) => {
+      .then(() => {
         postStup.restore();
         sinon.stub(request, 'post').throws();
         return request.requestDigest(spUrl);

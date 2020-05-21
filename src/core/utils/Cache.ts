@@ -12,7 +12,7 @@ export class Cache {
     if (!expiration) {
       cacheItem = new CacheItem(data);
     } else if (typeof expiration === 'number') {
-      let now: Date = new Date();
+      const now: Date = new Date();
       now.setSeconds(now.getSeconds() + expiration);
       cacheItem = new CacheItem(data, now);
     } else if (expiration instanceof Date) {
@@ -24,7 +24,7 @@ export class Cache {
 
   public get<T>(key: string): T {
     key = this.getHashKey(key);
-    let cacheItem: CacheItem = this._cache[key];
+    const cacheItem: CacheItem = this._cache[key];
 
     if (!cacheItem) {
       return undefined;
@@ -34,7 +34,7 @@ export class Cache {
       return cacheItem.data;
     }
 
-    let now: Date = new Date();
+    const now: Date = new Date();
 
     if (now > cacheItem.expiredOn) {
       this.remove(key);

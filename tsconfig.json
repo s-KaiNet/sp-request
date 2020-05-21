@@ -10,6 +10,7 @@
     "pretty": true,
     "removeComments": true,
     "skipLibCheck": true,
+    "outDir": "./lib",
     "lib": [
       "es2015"
     ],

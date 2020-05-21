@@ -7,3 +7,6 @@ test/integration/config.ts
 *.js.map
 !gulpfile.js
 !build/**
+!.eslintrc.js
+.nyc_output/
+coverage/
