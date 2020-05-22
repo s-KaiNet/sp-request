@@ -38,7 +38,6 @@ spr.post("https://sharepoint.url", {
     "Title": "hello world"
   },
   resolveBodyOnly: true,
-  simple: false,
   throwHttpErrors: false
 });
 ```
