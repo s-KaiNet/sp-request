@@ -11,7 +11,9 @@ Please refer to the table below to see what have changed:
 | `simple: true` | `throwHttpErrors: true` |
 | `strictSSL: false` | `rejectUnauthorized: false`|
 | `json: true` | `responseType: 'json'` |
+|`json: false`| `responseType: 'text'` or `responseType: 'buffer'` |
 |`resolveWithFullResponse: true`|`resolveBodyOnly: false`|
+
 If you use any of the properties in the left column, you should use right equivalent instead in your code.
 
 For example, your old 2.x code for `sp-request` might look like:

@@ -25,10 +25,10 @@ declare type ResponseBodyOnly = {
 };
 
 export interface GotRequestMethod {
-  <T>(url: string | OptionsOfJSONResponseBody, options?: OptionsOfJSONResponseBody): CancelableRequest<Response<T>>;
+  <T = any>(url: string | OptionsOfJSONResponseBody, options?: OptionsOfJSONResponseBody): CancelableRequest<Response<T>>;
   (url: string | OptionsOfTextResponseBody, options?: OptionsOfTextResponseBody): CancelableRequest<Response<string>>;
   (url: string | OptionsOfBufferResponseBody, options?: OptionsOfBufferResponseBody): CancelableRequest<Response<Buffer>>;
-  <T>(url: string | Merge<OptionsOfJSONResponseBody, ResponseBodyOnly>, options?: Merge<OptionsOfJSONResponseBody, ResponseBodyOnly>): CancelableRequest<T>;
+  <T = any>(url: string | Merge<OptionsOfJSONResponseBody, ResponseBodyOnly>, options?: Merge<OptionsOfJSONResponseBody, ResponseBodyOnly>): CancelableRequest<T>;
   (url: string | Merge<OptionsOfTextResponseBody, ResponseBodyOnly>, options?: Merge<OptionsOfTextResponseBody, ResponseBodyOnly>): CancelableRequest<string>;
   (url: string | Merge<OptionsOfBufferResponseBody, ResponseBodyOnly>, options?: Merge<OptionsOfBufferResponseBody, ResponseBodyOnly>): CancelableRequest<Buffer>;
   <T>(url: string | Merge<ISPRequestOptions, {
@@ -36,8 +36,8 @@ export interface GotRequestMethod {
   }>, options?: Merge<ISPRequestOptions, {
     isStream: true;
   }>): ProxyStream<T>;
-  <T>(url: string | Merge<ISPRequestOptions, { body?: any; resolveBodyOnly: true }>, options?: Merge<ISPRequestOptions, { body?: any; resolveBodyOnly: true }>): CancelableRequest<T>;
-  <T>(url: string | Merge<ISPRequestOptions, { body?: any }>, options?: Merge<ISPRequestOptions, { body?: any }>): CancelableRequest<Response<T>>;
+  <T = any>(url: string | Merge<ISPRequestOptions, { body?: any; resolveBodyOnly: true }>, options?: Merge<ISPRequestOptions, { body?: any; resolveBodyOnly: true }>): CancelableRequest<T>;
+  <T = any>(url: string | Merge<ISPRequestOptions, { body?: any }>, options?: Merge<ISPRequestOptions, { body?: any }>): CancelableRequest<Response<T>>;
 }
 
 export interface ISPRequest extends Record<HTTPAlias, GotRequestMethod>, GotRequestMethod {

@@ -1,6 +1,6 @@
 {
   "name": "sp-request",
-  "version": "3.0.0-beta.0",
+  "version": "3.0.0-beta.2",
   "description": "Simplified SharePoint HTTP client",
   "main": "./lib/src/index.js",
   "typings": "./lib/src/index",

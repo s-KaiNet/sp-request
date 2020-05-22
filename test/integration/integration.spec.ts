@@ -98,7 +98,7 @@ tests.forEach(test => {
     after('Deleting test list', function (done: MochaDone): void {
       this.timeout(30 * 1000);
 
-      Promise.all([request.requestDigest(test.url), request.get<any>(`${test.url}/_api/web/lists/GetByTitle('${listTitle}')`)])
+      Promise.all([request.requestDigest(test.url), request.get(`${test.url}/_api/web/lists/GetByTitle('${listTitle}')`)])
         .then(data => {
           const digest = data[0];
           const listId: string = data[1].body.d.Id;
@@ -122,7 +122,7 @@ tests.forEach(test => {
     it('should get list title', function (done: MochaDone): void {
       this.timeout(30 * 1000);
 
-      request.get<any>(`${test.url}/_api/web/lists/GetByTitle('${listTitle}')`)
+      request.get(`${test.url}/_api/web/lists/GetByTitle('${listTitle}')`)
         .then(data => {
           expect(data.body.d.Title).to.equal(listTitle);
           done();
@@ -159,7 +159,7 @@ tests.forEach(test => {
     it('should get list item by id', function (done: MochaDone): void {
       this.timeout(30 * 1000);
 
-      request.get<any>(`${test.url}/_api/web/lists/GetByTitle('${listTitle}')/items(1)`)
+      request.get(`${test.url}/_api/web/lists/GetByTitle('${listTitle}')/items(1)`)
         .then(data => {
           expect(data.body.d.Title).to.equal('Test');
           done();
