@@ -1,6 +1,6 @@
 {
   "name": "sp-request",
-  "version": "3.0.0-beta.2",
+  "version": "3.0.0-beta.3",
   "description": "Simplified SharePoint HTTP client",
   "main": "./lib/src/index.js",
   "typings": "./lib/src/index",
@@ -8,7 +8,6 @@
     "node": ">=4.0.0"
   },
   "scripts": {
-    "test": "gulp test-ci",
     "build": "npm run lint && tsc -p .",
     "prepublishOnly": "rimraf -- lib && npm run build",
     "dev": "tsc -p . --watch",

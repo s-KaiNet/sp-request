@@ -13,6 +13,7 @@ Please refer to the table below to see what have changed:
 | `json: true` | `responseType: 'json'` |
 |`json: false`| `responseType: 'text'` or `responseType: 'buffer'` |
 |`resolveWithFullResponse: true`|`resolveBodyOnly: false`|
+|`encoding: null` (to get file content)|`responseType: 'buffer'`|
 
 If you use any of the properties in the left column, you should use right equivalent instead in your code.
 
