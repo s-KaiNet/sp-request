@@ -10,9 +10,29 @@ const listTitle = 'SPRequestTesting';
 
 const tests: any[] = [
   {
-    name: 'on-premise user password',
+    name: 'adfs user credentials',
+    creds: config.adfsCredentials,
+    url: config.onpremAdfsEnabledUrl
+  },
+  {
+    name: 'on-premise user credentials',
     creds: config.onpremCreds,
     url: config.onpremNtlmEnabledUrl
+  },
+  {
+    name: 'on-premise user UPN credentials',
+    creds: config.onpremUpnCreds,
+    url: config.onpremNtlmEnabledUrl
+  },
+  {
+    name: 'on-premise user+domain credentials',
+    creds: config.onpremUserWithDomainCreds,
+    url: config.onpremNtlmEnabledUrl
+  },
+  {
+    name: 'online user credentials',
+    creds: config.onlineCreds,
+    url: config.onlineUrl
   },
   {
     name: 'on-premise addin only',
@@ -20,39 +40,38 @@ const tests: any[] = [
     url: config.onpremAdfsEnabledUrl
   },
   {
-    name: 'online user password',
-    creds: config.onlineCreds,
-    url: config.onlineUrl
-  },
-  {
-    name: 'adfs online user password',
-    creds: config.onlineWithAdfsCreds,
-    url: config.onlineUrl
-  },
-  {
     name: 'online addin only',
     creds: config.onlineAddinOnly,
     url: config.onlineUrl
   },
   {
-    name: 'adfs user credentials',
-    creds: config.adfsCredentials,
+    name: 'ondemand - online',
+    creds: {
+      ondemand: true
+    },
+    url: config.onlineUrl
+  },
+  {
+    name: 'ondemand - on-premise with ADFS',
+    creds: {
+      ondemand: true
+    },
     url: config.onpremAdfsEnabledUrl
   },
   {
-    name: 'fba on-premise user credentials',
-    creds: config.onpremFbaCreds,
-    url: config.onpremFbaEnabledUrl
-  },
-  {
-    name: 'on-premise file credentials',
-    creds: null,
-    url: config.onpremAdfsEnabledUrl
-  },
-  {
-    name: 'online file credentials',
+    name: 'file creds - online',
     creds: null,
     url: config.onlineUrl
+  },
+  {
+    name: 'file creds - on-premise - NTLM',
+    creds: null,
+    url: config.onpremNtlmEnabledUrl
+  },
+  {
+    name: 'file creds - on-premise - ADFS',
+    creds: null,
+    url: config.onpremAdfsEnabledUrl
   }
 ];
 

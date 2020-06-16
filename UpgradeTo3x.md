@@ -16,6 +16,7 @@ Please refer to the table below to see what have changed:
 |`encoding: null` (to get file content)|`responseType: 'buffer'`|
 
 If you use any of the properties in the left column, you should use right equivalent instead in your code.
+In some situations, you might receive different error object, if you depend on error handling\checking in your code. To make sure everything works without problems, you should check error branch logic as well.
 
 For example, your old 2.x code for `sp-request` might look like:
 
