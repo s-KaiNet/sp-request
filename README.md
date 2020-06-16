@@ -3,12 +3,14 @@
 
 ### Need help on SharePoint with Node.JS? Join our gitter chat and ask question! [![Gitter chat](https://badges.gitter.im/gitterHQ/gitter.png)](https://gitter.im/sharepoint-node/Lobby)
 
-> If you are looking for a way to perform some REST queries against SharePoint, consider also [PnPjs](https://github.com/pnp/pnpjs/) with [node.js integration](https://github.com/SharePoint-NodeJS/pnp-auth)
-
+> If you are looking for a way to perform some REST queries against SharePoint, consider also [PnPjs](https://github.com/pnp/pnpjs) with [node.js integration](https://github.com/SharePoint-NodeJS/pnp-auth)
+---
+> **IMPORTANT:** This module doesn't work in browser. The only supported environment is nodejs. If you have a need to use it in browser, probably you're looking for [sp-rest-proxy](https://github.com/koltyakov/sp-rest-proxy) - a nodejs proxy, which redirects calls to real SharePoint. 
+---
  `sp-request` is based on [got](https://github.com/sindresorhus/got/) (human-friendly and powerful HTTP request library for Node.js) and [node-sp-auth](https://github.com/s-KaiNet/node-sp-auth) modules. `node-sp-auth` implements different authentication options for unattended SharePoint authentication from nodejs. You can send REST queries to SharePoint (works with both on-prem and online) using `got` syntax with the same params that `got` supports, and `sp-request` (with help of `node-sp-auth`) takes care about authenticating you inside SharePoint.
 
  Versions supported:
- * SharePoint 2013+
+ * SharePoint 2013 and onwards
  * SharePoint Online
 
 ---
