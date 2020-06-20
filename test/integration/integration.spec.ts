@@ -1,7 +1,9 @@
 import { expect } from 'chai';
+import * as url from 'url';
 
 import * as sprequest from './../../src/core/SPRequest';
 import { ISPRequest } from '../../src/core/types';
+import { trimSlashes, removeTrailingSlash } from './utils';
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const config: any = require('./config');
@@ -76,6 +78,8 @@ const tests: any[] = [
 ];
 
 tests.forEach(test => {
+  test.url = removeTrailingSlash(test.url);
+
   describe(`sp-request: integration - ${test.name}`, () => {
     let request: ISPRequest;
 
@@ -185,6 +189,22 @@ tests.forEach(test => {
         })
         .catch((err) => {
           done(err);
+        });
+    });
+
+    it('should throw 500 or 404', function (done: MochaDone): void {
+      this.timeout(30 * 1000);
+      const path = trimSlashes(url.parse(test.url).path);
+      request.get(`${test.url}/_api/web/GetFileByServerRelativeUrl(@FileUrl)?@FileUrl='/${path}/SiteAssets/${encodeURIComponent('undefined.txt')}'`)
+        .then(() => {
+          done(new Error('Should throw'));
+        })
+        .catch((err) => {
+          if (err.message.indexOf('500') !== -1 || err.message.indexOf('404') !== -1) {
+            done()
+          } else {
+            done(err);
+          }
         });
     });
   });

@@ -39,6 +39,7 @@ export function create(credentials?: spauth.IAuthOptions): ISPRequest {
       responseType: 'json',
       resolveBodyOnly: false,
       rejectUnauthorized: false,
+      retry: 0,
       agent: isUrlHttps(options.url) ? agent : undefined
     }, options);
 
