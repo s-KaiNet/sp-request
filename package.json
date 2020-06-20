@@ -1,6 +1,6 @@
 {
   "name": "sp-request",
-  "version": "3.0.0-beta.5",
+  "version": "3.0.0",
   "description": "Simplified SharePoint HTTP client",
   "main": "./lib/src/index.js",
   "typings": "./lib/src/index",
@@ -77,6 +77,6 @@
   "dependencies": {
     "@types/core-js": "^2.5.3",
     "got": "10.7.0",
-    "node-sp-auth": "^3.0.0-beta.3"
+    "node-sp-auth": "^3.0.0"
   }
 }
