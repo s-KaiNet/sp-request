@@ -148,6 +148,16 @@ process.env['_sp_request_headers'] = JSON.stringify({
 	'X-FORMS_BASED_AUTH_ACCEPTED': 'f'
 });
 ```
+## Default options set by `sp-request`
+
+```javascript
+{
+  responseType: 'json',
+  resolveBodyOnly: false,
+  rejectUnauthorized: false,
+  retry: 0
+}
+```
 
 ## Development:
 
