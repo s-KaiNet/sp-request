@@ -165,7 +165,7 @@ tests.forEach(test => {
               'X-RequestDigest': digest
             },
             body: {
-              '__metadata': { 'type': `SP.Data.${listTitle}ListItem` },
+              '__metadata': { 'type': `SP.Data.${listTitle[0].toUpperCase()+listTitle.slice(1)}ListItem` },
               'Title': 'Test'
             }
           });
