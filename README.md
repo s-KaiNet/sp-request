@@ -1,11 +1,17 @@
 # sp-request - simplified SharePoint HTTP client
+
 [![npm version](https://badge.fury.io/js/sp-request.svg)](https://badge.fury.io/js/sp-request)
 
-### Need help on SharePoint with Node.JS? Join our gitter chat and ask question! [![Gitter chat](https://badges.gitter.im/gitterHQ/gitter.png)](https://gitter.im/sharepoint-node/Lobby)
-
-> If you are looking for a way to perform some REST queries against SharePoint, consider also [PnPjs](https://github.com/pnp/pnpjs) with [node.js integration](https://github.com/SharePoint-NodeJS/pnp-auth)
 ---
-> **IMPORTANT:** This module doesn't work in browser. The only supported environment is nodejs. If you have a need to use it in browser, probably you're looking for [sp-rest-proxy](https://github.com/koltyakov/sp-rest-proxy) - a nodejs proxy, which redirects calls to real SharePoint.
+> [!CAUTION]
+>
+> I don't use this module for many years and don't have time to actively maintain it. Thus no new versions are expected and no new features. Only your PR requests, if they are valid.
+>
+> Also, with Azure ACS and SharePoint Add-in model [retirement](https://techcommunity.microsoft.com/t5/microsoft-sharepoint-blog/sharepoint-add-in-retirement-in-microsoft-365/ba-p/3982035) some authentication methods for SharePoint Online will stop working after April, 2026.
+
+---
+> [!IMPORTANT]
+> This module doesn't work in browser. The only supported environment is nodejs. If you have a need to use it in browser, probably you're looking for [sp-rest-proxy](https://github.com/koltyakov/sp-rest-proxy) - a nodejs proxy, which redirects calls to real SharePoint.
 ---
  `sp-request` is based on [got](https://github.com/sindresorhus/got/) (human-friendly and powerful HTTP request library for Node.js) and [node-sp-auth](https://github.com/s-KaiNet/node-sp-auth) modules. `node-sp-auth` implements different authentication options for unattended SharePoint authentication from nodejs. You can send REST queries to SharePoint (works with both on-prem and online) using `got` syntax with the same params that `got` supports, and `sp-request` (with help of `node-sp-auth`) takes care about authenticating you inside SharePoint.
 
