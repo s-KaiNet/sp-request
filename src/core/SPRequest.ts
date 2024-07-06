@@ -40,7 +40,7 @@ export function create(credentials?: spauth.IAuthOptions): ISPRequest {
       resolveBodyOnly: false,
       rejectUnauthorized: false,
       retry: 0,
-      agent: isUrlHttps(options.url) ? agent : undefined
+      agent: { https: isUrlHttps(options.url) ? agent : undefined }
     }, options);
 
     const data = await spauth.getAuth(options.url.toString(), credentials);
